@@ -1,0 +1,16 @@
+room db + booking db = roomId
+
+view untuk booking
+- room card
+- date/time card - kiv timeslot
+
+-- fetch both db --
+untuk show bilik
+- based on roomId
+- collect room name
+
+untuk show booking
+- based on roomId
+- dapatkan booking date/time
+
+collect show both based on date/time
