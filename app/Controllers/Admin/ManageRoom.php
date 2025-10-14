@@ -13,7 +13,7 @@ class ManageRoom extends BaseController
         $RoomModel = new RoomModel();
         $data['rooms'] = $RoomModel->findAll();
 
-        return view('pages/rooms', $data);
+        return view('admin/admin_rooms', $data);
     }
     
     //open up create form
