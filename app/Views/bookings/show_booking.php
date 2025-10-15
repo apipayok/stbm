@@ -10,6 +10,9 @@
 <div class="container">
     <h2 class="mb-4">Bookings List</h2>
     <a href="<?= site_url('bookings/create') ?>" class="btn btn-primary mb-3">+ New Booking</a>
+    <a href="<?= site_url('dashboard') ?>" class="btn btn-secondary btn-lg mt-3 d-block mx-auto" style="width:200px;">
+    ← Back to Main Page
+    </a>
 
     <?php if (!empty($bookings) && is_array($bookings)): ?>
         <table class="table table-bordered table-hover shadow-sm bg-white">

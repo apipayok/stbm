@@ -39,12 +39,14 @@ class Booking extends BaseController
         return redirect()->to('/bookings');
     }
 
+    /*
     public function showBookings()
     {
         $BookingModel = new BookingModel();
         $data['bookings'] = $BookingModel->findAll();
 
-        return view('bookings/show_booking', $data);
+        return view('pages/bookings', $data);
     }
+    */
 
 }

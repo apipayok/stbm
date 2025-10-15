@@ -34,6 +34,9 @@
 <body>
 <div class="container mt-5">
     <h2 class="mb-4 text-center">Available Rooms</h2>
+    <a href="<?= site_url('dashboard') ?>" class="btn btn-secondary btn-lg mt-3 d-block mx-auto" style="width:200px;">
+    ← Back to Main Page
+    </a>
     <div class="row g-4">
         <?php if (!empty($rooms)): ?>
             <?php foreach ($rooms as $room): ?>

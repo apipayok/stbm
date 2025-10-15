@@ -23,7 +23,7 @@ $routes->get('rooms', 'Room::view');
 $routes->get('rooms/(:num)', 'Room::viewBooking/$1');
 
 //view and make bookings
-$routes->get('/bookings', 'Booking::showBookings');
+$routes->get('/bookings', 'Booking::viewBookings');
 $routes->get('bookings/create', 'Booking::create');
 $routes->post('bookings/store', 'Booking::store');
 

@@ -11,6 +11,9 @@
 
     <div class="d-flex justify-content-end mb-3">
         <a href="<?= site_url('admin/rooms/create') ?>" class="btn btn-primary">Add New Room</a>
+        <a href="<?= site_url('dashboard') ?>" class="btn btn-secondary btn-lg mt-3 d-block mx-auto" style="width:200px;">
+        ← Back to Main Page
+        </a>
     </div>
 
     <div class="row">
