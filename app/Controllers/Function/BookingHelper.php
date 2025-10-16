@@ -9,7 +9,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class BookingHelper extends BaseController
 {
-    public function joinBook($roomId)
+    public function joinBook($roomId)//ni untuk admin
     {
         $db = \Config\Database::connect();
         $builder = $db->table('rooms');
@@ -19,7 +19,7 @@ class BookingHelper extends BaseController
         return $builder->get()->getResultArray();
     }
 
-    public function transform($joinedData)
+    public function transform($joinedData)//untuk user view/room view
     {
     $rooms = [];
     foreach ($joinedData as $row) {
@@ -60,8 +60,8 @@ class BookingHelper extends BaseController
 kalau nak guna function
 ----
 $helper = new BookingHelper();
-$joined = $helper->getRoomBookingJoin(1);
-$nested = $helper->transformRoomBookings($joined);
+$joined = $helper->joinBook(1);
+$nested = $helper->transformBook($joined);
 return $this->response->setJSON($nested);
 ----
 join untuk admin
