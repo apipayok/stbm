@@ -19,10 +19,6 @@
                 Manage Room
             </a>
 
-            <a href="<?= site_url('/bookings') ?>" class="btn btn-primary btn-lg">
-                Make Bookings
-            </a>
-
             <a href="<?= site_url('/rooms') ?>" class="btn btn-primary btn-lg">
                 Show Room
             </a>

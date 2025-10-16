@@ -12,7 +12,8 @@ class BookingModel extends Model
     protected $allowedFields = [
         'roomId',
         'roomName', 
-        'date', 
+        'date',
+        'status',
         'booking_start', 
         'booking_end'
     ];

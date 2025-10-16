@@ -9,11 +9,11 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class BookingHelper extends BaseController
 {
-    public function joinBook($roomId)//ni untuk admin
+    public function joinBook($roomId)//ni output untuk admin
     {
         $db = \Config\Database::connect();
         $builder = $db->table('rooms');
-        $builder->select('rooms.*, bookings.date, bookings.booking_start, bookings.booking_end');
+        $builder->select('rooms.*, bookings.date, bookings.time_slot, bookings.status');
         $builder->join('bookings', 'bookings.roomId = rooms.roomId', 'left');
         $builder->where('rooms.roomId', $roomId);
         return $builder->get()->getResultArray();

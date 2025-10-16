@@ -23,8 +23,7 @@ $routes->get('rooms', 'Room::view');
 $routes->get('/rooms/(:segment)', 'Room::details/$1');;
 
 //view and make bookings
-$routes->get('/bookings', 'Booking::view');
-$routes->get('/bookings/(:segment)', 'Booking::details/$1');
+
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) //admin route kat sini
 {

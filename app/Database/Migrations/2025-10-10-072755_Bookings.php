@@ -13,9 +13,8 @@ class Booking extends Migration
             'roomId'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],
             'roomName'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'date'      => ['type' => 'DATE'],
-            'booking_start' => ['type' => 'TIME'],
-            'booking_end'   => ['type' => 'TIME'],
-            'status'    => ['type' => "ENUM('pending', 'approved', 'rejected')", 'default' => 'pending', 'null' => false,],
+            'time_slot' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => 'pending'],
+            'status'    => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'rejected'], 'null' => false,],
             'created_at'=> ['type' => 'DATETIME', 'null' => true,],
             'updated_at'=> ['type' => 'DATETIME', 'null' => true,],
         ]);

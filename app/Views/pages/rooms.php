@@ -17,7 +17,7 @@
                         <div class="card-body text-center">
                             <h5 class="card-title"><?= esc($room['roomName']) ?></h5>
                             <p class="card-text">Room ID: <?= esc($room['roomId']) ?></p>
-                            <a href="<?= site_url('bookings/' . $room['roomId']) ?>" class="btn btn-primary">
+                            <a href="<?= site_url('rooms/' . $room['roomId']) ?>" class="btn btn-primary">
                                 View Available Slots
                             </a>
                         </div>
