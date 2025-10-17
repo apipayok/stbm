@@ -12,6 +12,8 @@ class Booking extends Migration
             'id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'roomId'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],
             'roomName'  => ['type' => 'VARCHAR', 'constraint' => 255,],
+            'staffno'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],
+            'username'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'date'      => ['type' => 'DATE'],
             'time_slot' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => 'pending'],
             'status'    => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'rejected'], 'null' => false,],

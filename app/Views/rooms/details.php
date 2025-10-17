@@ -23,22 +23,38 @@
 
             <h5>Today's Time Slots:</h5>
 
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+            <?php elseif (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+            <?php endif; ?>
+
             <?php if (!empty($timeSlots)): ?>
                 <ul class="list-group mb-3">
                     <?php foreach ($timeSlots as $slot): ?>
+                        <?php
+                            $status = $slot['status'];
+                            $badgeClass = match ($status) {
+                                'approved' => 'status-approved',
+                                'pending' => 'status-pending',
+                                default => 'status-available',
+                            };
+                        ?>
                         <li class="list-group-item slot-item">
                             <span><?= esc($slot['slot']) ?></span>
-                            <?php
-                                $status = $slot['status'];
-                                $badgeClass = match ($status) {
-                                    'approved' => 'status-approved',
-                                    'pending' => 'status-pending',
-                                    default => 'status-available',
-                                };
-                            ?>
-                            <span class="badge status-badge <?= $badgeClass ?>">
-                                <?= ucfirst($status) ?>
-                            </span>
+
+                            <?php if ($status === 'available'): ?>
+                                <!-- ✅ Clickable button to book available slot -->
+                                <a href="<?= base_url('booking/check/' . $room['roomId'] . '/' . urlencode($slot['slot'])) ?>" 
+                                   class="btn btn-sm btn-success">
+                                    Book
+                                </a>
+                            <?php else: ?>
+                                <!-- 🟥 Just show status badge -->
+                                <span class="badge status-badge <?= $badgeClass ?>">
+                                    <?= ucfirst($status) ?>
+                                </span>
+                            <?php endif; ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>

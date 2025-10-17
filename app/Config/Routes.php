@@ -18,12 +18,12 @@ $routes->get('/logout', 'Auth::logout');
 $routes->get('/dashboard', 'Dashboard::viewDashboard');
 $routes->get('/book-room', 'Dashboard::bookRoom');
 
-//route untuk view bilik sebelum booking
-$routes->get('rooms', 'Room::view');  
-$routes->get('/rooms/(:segment)', 'Room::details/$1');;
+// Rooms
+$routes->get('/rooms', 'Room::view');               // Show all room cards
+$routes->get('/rooms/(:num)', 'Room::details/$1'); // Show room details with slots
 
-//view and make bookings
-
+// Booking actions
+$routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2'); // Book a slot
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) //admin route kat sini
 {

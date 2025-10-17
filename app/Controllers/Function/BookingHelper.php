@@ -38,8 +38,8 @@ class BookingHelper extends BaseController
             {
             $rooms[$id]['bookings'][] = [
             'date' => $row['date'],
-            'booking_start' => $row['booking_start'],
-            'booking_end' => $row['booking_end']
+            'time_slot' => $row['time_slot'],
+            'status' => $row['status'] ?? 'pending',
             ];
             }
 

@@ -11,11 +11,12 @@ class BookingModel extends Model
 
     protected $allowedFields = [
         'roomId',
-        'roomName', 
+        'roomName',
+        'staffno',
+        'username',
         'date',
+        'time_slot',
         'status',
-        'booking_start', 
-        'booking_end'
     ];
 
     //make created/updted_at
