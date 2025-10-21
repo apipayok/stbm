@@ -3,11 +3,12 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\BookingModel;
 use App\Models\UserModel;
 
 class Dashboard extends BaseController
 {
-    public function viewDashboard()
+    public function main()
     {
         // Ensure user is logged in
         if (!session()->get('logged_in')) {
@@ -20,7 +21,16 @@ class Dashboard extends BaseController
             'username' => session()->get('username'),
         ];
 
-        return view('pages/dashboard', $userData);
+        $bookingModel = new BookingModel();
+        $userId = session()->get('staffno');
+        $userBookings = $bookingModel->where('staffno', $userId)->findAll();
+
+        $data = [
+            'user' => $userData,
+            'bookings' => $userBookings,
+        ];
+
+        return view('pages/dashboard', $data);
     }
 
     public function bookRoom()

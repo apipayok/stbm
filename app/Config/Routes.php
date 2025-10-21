@@ -15,7 +15,7 @@ $routes->post('/login', 'Auth::login');
 $routes->get('/logout', 'Auth::logout');
 
 //route to dashboard
-$routes->get('/dashboard', 'Dashboard::viewDashboard');
+$routes->get('/dashboard', 'Dashboard::main');
 $routes->get('/book-room', 'Dashboard::bookRoom');
 
 // Rooms
@@ -27,6 +27,11 @@ $routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2');
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) //admin route kat sini
 {
+//route to user management
+$routes->get('users', 'ManageUser::viewUsers');
+$routes->get('users/toggle-admin/(:num)', 'ManageUser::toggleAdmin/$1');
+$routes->get('users/delete/(:num)', 'ManageUser::deleteUser/$1');
+
 //route to room management
 $routes->get('rooms', 'ManageRoom::viewRoom');
 $routes->get('rooms/create', 'ManageRoom::create'); 
