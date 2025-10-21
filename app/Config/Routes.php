@@ -19,11 +19,11 @@ $routes->get('/dashboard', 'Dashboard::viewDashboard');
 $routes->get('/book-room', 'Dashboard::bookRoom');
 
 // Rooms
-$routes->get('/rooms', 'Room::view');               // Show all room cards
-$routes->get('/rooms/(:num)', 'Room::details/$1'); // Show room details with slots
+$routes->get('/rooms', 'Room::view');               
+$routes->get('/rooms/(:num)', 'Room::details/$1'); 
 
 // Booking actions
-$routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2'); // Book a slot
+$routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2');
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) //admin route kat sini
 {

@@ -11,9 +11,6 @@
 
     <div class="d-flex justify-content-end mb-3">
         <a href="<?= site_url('admin/rooms/create') ?>" class="btn btn-primary">Add New Room</a>
-        <a href="<?= site_url('dashboard') ?>" class="btn btn-secondary btn-lg mt-3 d-block mx-auto" style="width:200px;">
-        ← Back to Main Page
-        </a>
     </div>
 
     <div class="row">
@@ -38,7 +35,10 @@
             <p class="text-center">No rooms found.</p>
         <?php endif; ?>
     </div>
-</div>
+    <div class="text-center mt-4">
+        <a href="<?= site_url('/dashboard') ?>" class="btn btn-outline-secondary">Back to Main Page</a>
+    </div>
+    </div>
 
 </body>
 </html>

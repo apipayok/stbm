@@ -19,13 +19,14 @@ class Booking extends BaseController
 
         $slot = urldecode($slot);
 
-        // Check if the slot is already booked today
+        // Check slot
         $existing = $bookingModel
             ->where('roomId', $roomId)
             ->where('date', date('Y-m-d'))
             ->where('time_slot', $slot)
             ->first();
-
+        
+        //kalau book exist/not exist 
         if ($existing) {
             session()->setFlashdata('error', 'This slot is already booked.');
         } else {
@@ -36,7 +37,7 @@ class Booking extends BaseController
                 return redirect()->back();
             }
 
-        
+            //insert booking ke db
             $bookingModel->insert([
                 'roomId'    => $roomId,
                 'roomName'  => $room['roomName'],
@@ -52,10 +53,7 @@ class Booking extends BaseController
 
         return redirect()->to('/rooms/' . $roomId);
     }
-
-    /**
-     * Admin view: return all bookings for a room (flat join)
-     */
+     
     public function adminView($roomId)
     {   
         $helper = new BookingHelper();
