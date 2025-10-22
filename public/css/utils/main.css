@@ -2,3 +2,15 @@
 @import url(button.css);
 @import url(app.css);
 @import url(card.css);
+
+
+html, body {
+    height: 100%;
+    overflow: hidden; /* Prevent scrolling */
+}
+
+.container {
+    height: 100vh; /* Fill the whole screen height */
+    overflow-y: auto; /* Optional: make inner area scrollable instead */
+}
+

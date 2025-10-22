@@ -15,14 +15,18 @@ class Booking extends BaseController
     {
         $bookingModel = new BookingModel();
         $roomModel = new RoomModel();
-        
 
         $slot = urldecode($slot);
+        $date = $this->request->getGet('date') ?? date('Y-m-d');
+
+        if (!$date) {
+            $date = date('Y-m-d');
+        }
 
         // Check slot
         $existing = $bookingModel
             ->where('roomId', $roomId)
-            ->where('date', date('Y-m-d'))
+            ->where('date', $date)
             ->where('time_slot', $slot)
             ->first();
         
@@ -43,7 +47,7 @@ class Booking extends BaseController
                 'roomName'  => $room['roomName'],
                 'staffno'   => session()->get('staffno'),
                 'username'  => session()->get('username'),
-                'date'      => date('Y-m-d'),
+                'date'      => $date,
                 'time_slot' => $slot,
                 'status'    => 'pending',
             ]);
@@ -51,7 +55,7 @@ class Booking extends BaseController
             session()->setFlashdata('success', 'Your booking has been submitted.');
         }
 
-        return redirect()->to('/rooms/' . $roomId);
+        return redirect()->to('/rooms/' . $roomId . '?date=' . $date);
     }
      
     public function adminView($roomId)

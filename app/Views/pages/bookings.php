@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Bookings</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+<?= $this->extend('layouts/main') ?>
+<?= $this->section('content') ?>
+
 
 <div class="container py-5">
-    <h2 class="mb-4 text-center">Available Rooms</h2>
+    <h2 class="mb-4 text-center">Available Slots</h2>
     <div class="row">
         <?php if (!empty($rooms)): ?>
             <?php foreach ($rooms as $room): ?>
@@ -34,5 +29,4 @@
     </div>
 </div>
 
-</body>
-</html>
+<?= $this->endSection() ?>

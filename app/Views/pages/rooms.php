@@ -1,7 +1,5 @@
 <?= $this->extend('layouts/main') ?>
-
 <?= $this->section('content') ?>
-<body class="bg-light">
 
 <div class="container py-5">
     <h2 class="mb-4 text-center">Available Rooms</h2>

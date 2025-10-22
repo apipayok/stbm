@@ -31,15 +31,13 @@
                 </li>
                 <?php endif; ?> <!-- admin end -->
 
-                <?php if (session()->get('is_admin') != 1): ?> <!-- user start -->
-                    
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('/rooms') ?>">Show Room</a>
                 </li>
                 <li class="nav-item mt-3">
                     <a class="nav-link text-danger" href="<?= site_url('logout') ?>">Logout</a>
                 </li>
-                <?php endif; ?> <!-- user end -->
+                
             </ul>
         </nav>
 
