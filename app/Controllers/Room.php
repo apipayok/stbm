@@ -48,7 +48,14 @@ class Room extends BaseController
             $slotStatus = 'available';
             foreach ($bookings as $booking) {
                 if ($booking['time_slot'] === $slot['slot']) {
-                    $slotStatus = $booking['status'];
+                    // tukar status from db
+                    $slotStatus = match($booking['status']) {
+                        'pending' => 'pending',
+                        'approved' => 'booked',
+                        'rejected' => 'unavailable',
+                        'cancelled' => 'available',
+                        default => 'available'
+                    };
                     break;
                 }
             }

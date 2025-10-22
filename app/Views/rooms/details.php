@@ -9,35 +9,43 @@
             <p><strong>Room ID:</strong> <?= esc($room['roomId']) ?></p>
             <hr>
 
-            <!-- 🟢 Date selector -->
+            <!-- Date selector -->
             <form method="get" class="mb-4">
                 <label for="date" class="me-2"><strong>Select Date:</strong></label>
                 <input 
                     type="date" 
                     id="date" 
                     name="date" 
-                    value="<?= esc($selectedDate ?? date('d-m-Y')) ?>" 
+                    value="<?= esc($selectedDate ?? date('Y-m-d')) ?>" 
                     required
                 >
                 <button type="submit" class="btn btn-primary btn-sm">Apply</button>
             </form>
 
-            <h5>Time Slots for <?= esc($selectedDate ?? date('d-m-Y')) ?>:</h5>
+            <h5>Time Slots for <?= date('d-m-Y', strtotime($selectedDate ?? date('Y-m-d'))) ?>:</h5>
 
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
             <?php elseif (session()->getFlashdata('error')): ?>
                 <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
             <?php endif; ?>
-
+            
+            <!-- edit booking status sini -->
             <?php if (!empty($timeSlots)): ?>
                 <ul class="list-group mb-3">
                     <?php foreach ($timeSlots as $slot): ?>
                         <?php
                             $status = $slot['status'];
+                            $statusMessage = match ($status) {
+                                'booked' => 'Room Reserved',
+                                'pending' => 'Awaiting Approval',
+                                'unavailable' => 'Not Available',
+                                default => 'Available',
+                            };
                             $badgeClass = match ($status) {
-                                'approved' => 'status-approved',
+                                'booked' => 'status-approved',
                                 'pending' => 'status-pending',
+                                'unavailable' => 'status-unavailable',
                                 default => 'status-available',
                             };
                         ?>
@@ -45,14 +53,14 @@
                             <span><?= esc($slot['slot']) ?></span>
 
                             <?php if ($status === 'available'): ?>
-                                <!-- 🟢 Pass selected date in the booking link -->
-                                <a href="<?= base_url('booking/check/' . $room['roomId'] . '/' . urlencode($slot['slot'])) ?>?date=<?= esc($selectedDate ?? date('d-m-Y')) ?>"
+                                <!--  Pass selected date in the booking link -->
+                                <a href="<?= base_url('booking/check/' . $room['roomId'] . '/' . urlencode($slot['slot'])) ?>?date=<?= esc($selectedDate ?? date('Y-m-d')) ?>"
                                    class="btn btn-sm btn-success">
                                     Book
                                 </a>
                             <?php else: ?>
                                 <span class="badge status-badge <?= $badgeClass ?>">
-                                    <?= ucfirst($status) ?>
+                                    <?= $statusMessage ?>
                                 </span>
                             <?php endif; ?>
                         </li>
