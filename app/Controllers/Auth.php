@@ -42,14 +42,20 @@ class Auth extends BaseController
             session()->set([
                 'staffno' => $user['staffno'],
                 'username' => $user['username'],
+                'is_admin' => $user['is_admin'],
                 'logged_in' => true,
                 ]);
+
+                if ($user['is_admin'] == 1){
+                    return redirect()->to('/dashboard');//japgi ubah - buat admin dashboard lak
+                }else{
                 return redirect()->to('/dashboard');
-            }
-            else
-            {
-                return redirect()->back()->with('error', 'Invalid credentials');
-            }            
+                }
+                }
+                else
+                {
+                    return redirect()->back()->with('error', 'Invalid credentials');
+                }            
     }
 
     //logout

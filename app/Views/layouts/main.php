@@ -20,18 +20,26 @@
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Main</a>
                 </li>
+
+                <?php if (session()->get('is_admin') == 1): ?> <!-- admin start -->
+
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Manage Users</a>
                 </li>
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Manage Room</a>
                 </li>
+                <?php endif; ?> <!-- admin end -->
+
+                <?php if (session()->get('is_admin') != 1): ?> <!-- user start -->
+                    
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('/rooms') ?>">Show Room</a>
                 </li>
                 <li class="nav-item mt-3">
                     <a class="nav-link text-danger" href="<?= site_url('logout') ?>">Logout</a>
                 </li>
+                <?php endif; ?> <!-- user end -->
             </ul>
         </nav>
 
