@@ -27,6 +27,9 @@
                     <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Manage Users</a>
                 </li>
                 <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">Manage Bookings</a>
+                </li>
+                <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Manage Room</a>
                 </li>
                 <?php endif; ?> <!-- admin end -->

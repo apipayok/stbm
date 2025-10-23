@@ -35,6 +35,10 @@ $routes->get('users', 'ManageUser::viewUsers');
 $routes->get('users/toggle-admin/(:num)', 'ManageUser::toggleAdmin/$1');
 $routes->get('users/delete/(:num)', 'ManageUser::deleteUser/$1');
 
+//routes to booking management
+$routes->get('bookings', 'ManageBooking::view');
+$routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
+
 //route to room management
 $routes->get('rooms', 'ManageRoom::viewRoom');
 $routes->get('rooms/create', 'ManageRoom::create'); 

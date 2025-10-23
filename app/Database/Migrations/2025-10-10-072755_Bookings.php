@@ -10,6 +10,7 @@ class Booking extends Migration
     {
         $this->forge->addField([
             'id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
+            'bookingId' => ['type' => 'VARCHAR', 'constraint' => 255, 'unique' => true],
             'roomId'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],
             'roomName'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'staffno'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],

@@ -52,6 +52,9 @@
             </div>
         </div>
     </div>
+    <div class="text-center mt-4">
+        <a href="<?= site_url('/dashboard') ?>" class="btn btn-outline-secondary">Back to Main Page</a>
+    </div>
 </div>
 
 <?= $this->endSection() ?>

@@ -2,7 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<div class="container py-2">
+<div class="container py-1">
     <div class="card shadow-sm">
         <div class="card-body">
             <h3><?= esc($room['roomName']) ?></h3>

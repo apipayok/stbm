@@ -41,8 +41,11 @@ class Booking extends BaseController
                 return redirect()->back();
             }
 
+            $bookingId = 'BK-' . date('Ymd') . '-' . substr(uniqid(), -4);
+
             //insert booking ke db
             $bookingModel->insert([
+                'bookingId' => $bookingId,
                 'roomId'    => $roomId,
                 'roomName'  => $room['roomName'],
                 'staffno'   => session()->get('staffno'),
