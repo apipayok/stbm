@@ -32,10 +32,10 @@
                     <tr>
                         <td><?= $no++ ?></td>
                         <td><?= esc($booking['bookingId']) ?></td>
-                        <td><?= esc($booking['user_name'] ?? 'N/A') ?></td>
-                        <td><?= esc($booking['room_name'] ?? 'N/A') ?></td>
+                        <td><?= esc($booking['username'] ?? 'N/A') ?></td>
+                        <td><?= esc($booking['roomName'] ?? 'N/A') ?></td>
                         <td><?= esc($booking['date']) ?></td>
-                        <td><?= esc($booking['time']) ?></td>
+                        <td><?= esc($booking['time_slot']) ?></td>
                         <td><?= esc($booking['reason'] ?? '-') ?></td>
                         <td>
                             <a href="<?= base_url('admin/bookings/rejected/delete/' . $booking['bookingId']) ?>" 
