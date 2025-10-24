@@ -1,5 +1,3 @@
-<!-- nanti edit jadi main page for manage booking, bukan pending -->
-
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 

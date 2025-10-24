@@ -14,7 +14,7 @@
 <body class="bg-light">
     <div class="d-flex">
         <!-- Sidebar -->
-        <nav class="bg-dark text-white p-3 vh-100" style="width: 200px;">
+        <nav class="bg-dark text-white p-3 vh-100" style="width: 220px;">
             <h4 class="mb-4">STBM</h4>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
@@ -27,7 +27,25 @@
                     <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Manage Users</a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">Manage Bookings</a>
+                    <a class="nav-link text-white d-flex justify-content-between align-items-center" 
+                    data-bs-toggle="collapse" href="#bookingDropdown" role="button" aria-expanded="false" aria-controls="bookingDropdown">Manage Bookings
+                    </a>
+                    <div class="collapse ps-3" id="bookingDropdown">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">All Bookings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/pending') ?>">Pending</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/approved') ?>">Approved</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/rejected') ?>">Rejected</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Manage Room</a>
@@ -40,11 +58,11 @@
                 <li class="nav-item mt-3">
                     <a class="nav-link text-danger" href="<?= site_url('logout') ?>">Logout</a>
                 </li>
-                
             </ul>
         </nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
- <?= $this->renderSection('content') ?>
+<?= $this->renderSection('content') ?>
 
 </body>
 </html>

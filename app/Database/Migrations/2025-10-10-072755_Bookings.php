@@ -18,6 +18,7 @@ class Booking extends Migration
             'date'      => ['type' => 'DATE'],
             'time_slot' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => 'pending'],
             'status'    => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'rejected'], 'null' => false,],
+            'reason'    => ['type' => 'VARCHAR', 'constraint' => 255,],
             'created_at'=> ['type' => 'DATETIME', 'null' => true,],
             'updated_at'=> ['type' => 'DATETIME', 'null' => true,],
         ]);

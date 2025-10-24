@@ -18,6 +18,7 @@ class BookingModel extends Model
         'date',
         'time_slot',
         'status',
+        'reason'
     ];
 
     //make created/updted_at

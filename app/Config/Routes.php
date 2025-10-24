@@ -39,6 +39,18 @@ $routes->get('users/delete/(:num)', 'ManageUser::deleteUser/$1');
 $routes->get('bookings', 'ManageBooking::view');
 $routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
 
+//routes to pending bookings
+$routes->get('bookings/pending', 'ManageBooking::view');
+$routes->post('bookings/pending/edit/(:any)', 'ManageBooking::editBooking/$1');
+
+//routes to rejected bookings
+$routes->get('bookings/rejected', 'ManageBooking::viewRejected');
+$routes->get('bookings/rejected/delete/(:any)', 'ManageBooking::manageRejected/$1');
+
+//routes to approved bookings
+$routes->get('bookings/approved', 'ManageBooking::viewApproved');
+$routes->get('bookings/approved/delete/(:any)', 'ManageBooking::manageApproved/$1');
+
 //route to room management
 $routes->get('rooms', 'ManageRoom::viewRoom');
 $routes->get('rooms/create', 'ManageRoom::create'); 
