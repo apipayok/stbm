@@ -25,5 +25,9 @@
 }
 
 .status-approved {
+    background-color: #90af97;
+}
+
+.status-unavailable {
     background-color: #dc3545;
 }

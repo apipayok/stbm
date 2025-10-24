@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sistem Tempahan Bilik Mesyuarat MAIM</title>
+    <title>.:: STBM MAIM | Sistem Tempahan Bilik Mesyuarat MAIM ::.</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -19,13 +19,13 @@
             <h4 class="mb-4">STBM</h4>
             <ul class="nav flex-column">
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Main</a>
+                    <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Utama</a>
                 </li>
                 <!-- admin start -->
                 <?php if (session()->get('is_admin') == 1): ?> 
 
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Manage Users</a>
+                    <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Pengguna</a>
                 </li>
 
                 <!-- dropdown setting -->
@@ -35,21 +35,21 @@
                         href="#bookingDropdown" 
                         role="button" 
                         aria-expanded="<?= ($uri->getSegment(2) === 'bookings') ? 'true' : 'false' ?>" 
-                        aria-controls="bookingDropdown">Manage Bookings
+                        aria-controls="bookingDropdown">Tempahan
                     </a>
                     <div class="collapse ps-3 <?= ($uri->getSegment(2) === 'bookings') ? 'show' : '' ?>" id="bookingDropdown">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">Booking Schedule</a>
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">Dashboard</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/pending') ?>">Pending</a>
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/pending') ?>">Kelulusan</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/approved') ?>">Approved</a>
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/approved') ?>">Dilulus</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/rejected') ?>">Rejected</a>
+                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/rejected') ?>">Ditolak</a>
                             </li>
                         </ul>
                     </div>
@@ -57,18 +57,18 @@
                 <!-- dropdown setting -->
 
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Manage Room</a>
+                    <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Bilik Mesyuarat</a>
                 </li>
                 <?php endif; ?> 
                 <!-- admin end -->
 
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('/rooms') ?>">Show Room</a>
+                    <a class="nav-link text-white" href="<?= site_url('/rooms') ?>">Tempah Bilik</a>
                 </li>
                 <li class="nav-item mt-3">
                     <a class="nav-link text-danger" href="<?= site_url('logout') ?>">Logout</a>
                 </li>
-                
+
             </ul>
         </nav>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

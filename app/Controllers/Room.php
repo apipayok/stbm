@@ -63,7 +63,7 @@ class Room extends BaseController
         }
 
         // Pass everything to the view
-        return view('rooms/details', [
+        return view('bookings/create_booking', [
             'room' => $room,
             'selectedDate' => $selectedDate,
             'timeSlots' => $timeSlots,

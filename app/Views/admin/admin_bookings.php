@@ -1,73 +1,135 @@
-<!-- nanti edit jadi main page for manage booking, bukan pending -->
-
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<div class="container py-4">
+<div class="container mt-4">
+    <h2 class="mb-4">Dashboard</h2>
 
-    <h2 class="mb-4 text-center">Manage Bookings</h2>
+    <!-- Overview Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 mb-3">
+            <a href="<?= base_url('admin/bookings/pending') ?>" class="text-decoration-none text-dark">
+                <div class="card text-center shadow-sm border-warning">
+                    <div class="card-body">
+                        <h6 class="text-warning">Kelulusan</h6>
+                        <h3><?= $pendingCount ?></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-    <!-- Flash messages -->
-    <?php if(session()->getFlashdata('success')): ?>
-        <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
-    <?php elseif(session()->getFlashdata('error')): ?>
-        <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
-    <?php endif; ?>
+        <div class="col-md-3 mb-3">
+            <a href="<?= base_url('admin/bookings/approved') ?>" class="text-decoration-none text-dark">
+                <div class="card text-center shadow-sm border-success">
+                    <div class="card-body">
+                        <h6 class="text-success">Diluluskan</h6>
+                        <h3><?= $approvedCount ?></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <table class="table table-bordered table-hover align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>#</th>
-                        <th>Room</th>
-                        <th>Date</th>
-                        <th>Time Slot</th>
-                        <th>Booked By</th>
-                        <th>Status</th>
-                        <th>Change Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if (empty($bookings)): ?>
-                        <tr>
-                            <td colspan="7" class="text-center text-muted">No bookings found.</td>
-                        </tr>
-                    <?php else: ?>
-                        <?php foreach($bookings as $index => $b): ?>
-                            <tr>
-                                <td><?= $index + 1 ?></td>
-                                <td><?= esc($b['roomName'] ?? 'Unknown') ?></td>
-                                <td><?= esc($b['date'] ?? '-') ?></td>
-                                <td><?= esc($b['time_slot'] ?? '-') ?></td>
-                                <td><?= esc($b['username'] ?? '-') ?></td>
-                                <td>
-                                    <?php if($b['status'] == 'approved'): ?>
-                                        <span class="badge bg-success">Approved</span>
-                                    <?php elseif($b['status'] == 'rejected'): ?>
-                                        <span class="badge bg-danger">Rejected</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-secondary">Pending</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td>
-                                    <form action="<?= site_url('admin/bookings/edit/' . $b['bookingId']) ?>" method="post" class="d-inline">
-                                        <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
-                                            <option value="pending" <?= $b['status'] == 'pending' ? 'selected' : '' ?>>Pending</option>
-                                            <option value="approved" <?= $b['status'] == 'approved' ? 'selected' : '' ?>>Approved</option>
-                                            <option value="rejected" <?= $b['status'] == 'rejected' ? 'selected' : '' ?>>Rejected</option>
-                                        </select>
-                                    </form>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+        <div class="col-md-3 mb-3">
+            <a href="<?= base_url('admin/bookings/rejected') ?>" class="text-decoration-none text-dark">
+                <div class="card text-center shadow-sm border-danger">
+                    <div class="card-body">
+                        <h6 class="text-danger">Ditolak</h6>
+                        <h3><?= $rejectedCount ?></h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card text-center shadow-sm border-secondary">
+                <div class="card-body">
+                    <h6 class="text-secondary">Total</h6>
+                    <h3><?= $totalCount ?></h3>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="text-center mt-4">
-        <a href="<?= site_url('/dashboard') ?>" class="btn btn-outline-secondary">Back to Main Page</a>
+
+    <!-- Filters / Search Placeholder -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Search by user, room or ID...">
+                </div>
+                <div class="col-md-3">
+                    <select class="form-select" name="status">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="date" class="form-control" name="date">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-primary w-100">Filter</button> <!-- Placeholder button -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Recent Bookings Table -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Recent Bookings</h5>
+
+            <!-- Set max height and enable scroll -->
+            <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+                <table class="table table-striped align-middle">
+                    <thead class="table-light sticky-top">
+                        <tr>
+                            <th>Staff No.</th>
+                            <th>User</th>
+                            <th>Room</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (!empty($bookings)): ?>
+                            <?php foreach (array_slice($bookings, 0, 10) as $booking): ?>
+                                <tr>
+                                    <td><?= esc($booking['staffno'] ?? '—') ?></td>
+                                    <td><?= esc($booking['username'] ?? '—') ?></td>
+                                    <td><?= esc($booking['roomName'] ?? '—') ?></td>
+                                    <td><?= esc($booking['date'] ?? '—') ?></td>
+                                    <td><?= esc($booking['time_slot'] ?? '—') ?></td>
+                                    <td>
+                                        <?php
+                                            $status = strtolower($booking['status'] ?? '');
+                                            $badgeColor = match($status) {
+                                                'approved' => 'success',
+                                                'pending' => 'warning',
+                                                'rejected' => 'danger',
+                                                default => 'secondary'
+                                            };
+                                        ?>
+                                        <span class="badge bg-<?= $badgeColor ?>"><?= ucfirst($status) ?></span>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
+                            <tr><td colspan="6" class="text-center text-muted">No bookings found.</td></tr>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Placeholder for Calendar or Alerts -->
+    <div class="card shadow-sm">
+        <div class="card-body text-center text-muted">
+            <p>📅 Calendar view and alerts/notifications will be added here.</p>
+        </div>
     </div>
 </div>
 
