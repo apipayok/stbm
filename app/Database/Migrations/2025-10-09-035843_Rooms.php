@@ -12,7 +12,7 @@ class Rooms extends Migration
             'id'        => ['type' => 'INT', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
             'roomId'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'unique' => true],
             'roomName'  => ['type' => 'VARCHAR', 'constraint' => 255,],
-            'info'      => ['type' => 'VARCHAR', 'constraint' => 255,],
+            'status'    => ['type' => 'ENUM', 'constraint' => ['available', 'hidden'], 'null' => false,],
             'created_at'=> ['type' => 'DATETIME', 'null' => true,],
             'updated_at'=> ['type' => 'DATETIME', 'null' => true,],
         ]);

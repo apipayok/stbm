@@ -6,21 +6,6 @@ use App\Models\BookingModel;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-/* NAK BUAT APA
-Overview
-    - counts for each booking status(pending, approved, rejected)
-    - total bookings
-    - cards are clickable
-
-Recent
-    - show all recent bookings(semua status)
-    - filter table berdasarka table field
-    - last 5/10 entries maybe
-
-Calendar view
-Alerts/Notifications
-*/
-
 class BookingDashboard extends BaseController
 {
     public function view()
@@ -42,6 +27,11 @@ class BookingDashboard extends BaseController
         ];
 
         return view('admin/admin_bookings', $data);
+    }
+
+    public function filterBookings()
+    {
+        // Placeholder for future filter logic
     }
 
 }

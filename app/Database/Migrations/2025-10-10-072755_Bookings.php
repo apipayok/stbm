@@ -16,7 +16,7 @@ class Booking extends Migration
             'staffno'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, ],
             'username'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'date'      => ['type' => 'DATE'],
-            'time_slot' => ['type' => 'VARCHAR', 'constraint' => 50, 'null' => 'pending'],
+            'time_slot' => ['type' => 'VARCHAR', 'constraint' => 50,],
             'status'    => ['type' => 'ENUM', 'constraint' => ['pending', 'approved', 'rejected'], 'null' => false,],
             'reason'    => ['type' => 'VARCHAR', 'constraint' => 255,],
             'created_at'=> ['type' => 'DATETIME', 'null' => true,],

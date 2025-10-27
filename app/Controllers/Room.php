@@ -22,7 +22,6 @@ class Room extends BaseController
     public function details($roomId) //details bilik after clicked on cards
     {
         $helper = new BookingHelper();
-        $roomModel = new RoomModel();
         $bookingModel = new \App\Models\BookingModel();
 
         // Get room info

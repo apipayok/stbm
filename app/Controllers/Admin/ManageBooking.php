@@ -8,77 +8,49 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class ManageBooking extends BaseController
 {
-    public function view()
-    {
-        $bookingModel = new BookingModel();
-        $bookings = $bookingModel->where('status', 'pending')->findAll();
+    protected $bookingModel;
+    protected $allowedStatuses = ['pending', 'approved', 'rejected'];
 
-        return view('bookings/manage_pending', ['bookings' => $bookings]);//edit route
+    public function __construct()
+    {
+        $this->bookingModel = new BookingModel();
     }
 
-    public function editBooking($bookingId)
+    public function view($status = 'pending')
     {
-        $bookingModel = new BookingModel();
-        $bookings = $bookingModel->where('bookingId', $bookingId)->first();
-        if (!$bookings) {
+        $bookings = $this->bookingModel->where('status', $status)->findAll();
+        return view("bookings/manage_{$status}", ['bookings' => $bookings]);
+    }
+
+    public function updateStatus($bookingId)
+    {
+        $booking = $this->bookingModel->where('bookingId', $bookingId)->first();
+        if (!$booking) {
             return redirect()->back()->with('error', 'Booking not found.');
-        }
+        } //cari booking
 
         $newStatus = $this->request->getPost('status');
-        $allowedStatuses = ['pending', 'approved', 'rejected'];
-        if (!in_array($newStatus, $allowedStatuses)) {
+        if (!in_array($newStatus, $this->allowedStatuses)) {
             return redirect()->back()->with('error', 'Invalid status.');
-        }
+        } //cek status
 
-        $updateData = ['status' => $newStatus];
+        $updateData = ['status' => $newStatus,];
         if ($newStatus === 'rejected') {
-            $reason = $this->request->getPost('reason') ?? 'No reason provided';
-            $updateData['reason'] = $reason;
-        }
+            $updateData['reason'] = $this->request->getPost('reason') ?? 'No reason provided';
+        } //update status
 
-        $bookingModel->where('bookingId', $bookingId)->set($updateData)->update();
+        $this->bookingModel->where('bookingId', $bookingId)->set($updateData)->update();
         return redirect()->back()->with('success', 'Booking status updated successfully.');
     }
 
-    //logic untuk rejected
-    public function viewRejected()
+    public function delete($bookingId)
     {
-        $bookingModel = new BookingModel();
-        $rejected = $bookingModel->where('status', 'rejected')->findAll();
-
-        return view('bookings/manage_rejected', ['rejected' => $rejected]);
-    }
-    public function manageRejected($bookingId)
-    {
-        $bookingModel = new BookingModel();
-        $booking = $bookingModel->where('bookingId', $bookingId)->where('status', 'rejected')->first();
-
+        $booking = $this->bookingModel->where('bookingId', $bookingId)->first();
         if (!$booking) {
-            return redirect()->back()->with('error', 'Booking not found or not rejected.');
+            return redirect()->back()->with('error', 'Booking not found.');
         }
 
-        $bookingModel->where('bookingId', $bookingId)->delete();
-        return redirect()->back()->with('success', 'Rejected booking deleted successfully.');
-    }
-
-    //logic untuk approved
-    public function viewApproved()
-    {
-        $bookingModel = new BookingModel();
-        $approved = $bookingModel->where('status', 'approved')->findAll();
-
-        return view('bookings/manage_approved', ['approved' => $approved]);
-    }
-    public function manageApproved($bookingId)
-    {
-        $bookingModel = new BookingModel();
-        $booking = $bookingModel->where('bookingId', $bookingId)->where('status', 'approved')->first();
-
-        if (!$booking) {
-            return redirect()->back()->with('error', 'Booking not found or not approved.');
-        }
-
-        $bookingModel->where('bookingId', $bookingId)->delete();
-        return redirect()->back()->with('success', 'Approved booking deleted successfully.');
+        $this->bookingModel->where('bookingId', $bookingId)->delete();
+        return redirect()->back()->with('success', 'Booking deleted successfully.');
     }
 }

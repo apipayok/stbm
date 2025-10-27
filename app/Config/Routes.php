@@ -15,49 +15,40 @@ $routes->post('/login', 'Auth::login');
 $routes->get('/logout', 'Auth::logout');
 
 //protect session
-$routes->group('', ['filter' => 'auth'], function($routes) {
+$routes->group('', ['filter' => 'auth'], function ($routes) {
 
-//route to dashboard
-$routes->get('/dashboard', 'Dashboard::main');
-$routes->get('/book-room', 'Dashboard::bookRoom');
+    //route to dashboard
+    $routes->get('/dashboard', 'Dashboard::main');
+    $routes->get('/book-room', 'Dashboard::bookRoom');
 
-// Rooms
-$routes->get('/rooms', 'Room::view');               
-$routes->get('/rooms/(:num)', 'Room::details/$1'); 
+    // Rooms
+    $routes->get('/rooms', 'Room::view');
+    $routes->get('/rooms/(:num)', 'Room::details/$1');
 
-// Booking actions
-$routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2');
+    // Booking actions
+    $routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2');
 
-$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'admin'], function($routes) //admin route kat sini
-{
-//route to user management
-$routes->get('users', 'ManageUser::viewUsers');
-$routes->get('users/toggle-admin/(:num)', 'ManageUser::toggleAdmin/$1');
-$routes->get('users/delete/(:num)', 'ManageUser::deleteUser/$1');
+    $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'admin'], function ($routes) //admin route kat sini
+    {
+        //route to user management
+        $routes->get('users', 'ManageUser::viewUsers');
+        $routes->get('users/toggle-admin/(:num)', 'ManageUser::toggleAdmin/$1');
+        $routes->get('users/delete/(:num)', 'ManageUser::deleteUser/$1');
 
-//routes to booking management
-$routes->get('bookings', 'BookingDashboard::view');
-$routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
+        //routes to booking management
+        $routes->get('bookings', 'BookingDashboard::view');
+        $routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
 
-//routes to pending bookings
-$routes->get('bookings/pending', 'ManageBooking::view');
-$routes->post('bookings/pending/edit/(:any)', 'ManageBooking::editBooking/$1');
+        $routes->get('bookings/(:segment)', 'ManageBooking::view/$1'); // view pending/approved/rejected
+        $routes->post('update/(:any)', 'ManageBooking::updateStatus/$1');
+        $routes->get('delete/(:any)', 'ManageBooking::delete/$1');
 
-//routes to rejected bookings
-$routes->get('bookings/rejected', 'ManageBooking::viewRejected');
-$routes->get('bookings/rejected/delete/(:any)', 'ManageBooking::manageRejected/$1');
-
-//routes to approved bookings
-$routes->get('bookings/approved', 'ManageBooking::viewApproved');
-$routes->get('bookings/approved/delete/(:any)', 'ManageBooking::manageApproved/$1');
-
-//route to room management
-$routes->get('rooms', 'ManageRoom::viewRoom');
-$routes->get('rooms/create', 'ManageRoom::create'); 
-$routes->post('rooms/store', 'ManageRoom::store');  
-$routes->get('rooms/edit/(:num)', 'ManageRoom::edit/$1');  
-$routes->post('rooms/update/(:num)', 'ManageRoom::update/$1'); 
-$routes->get('rooms/delete/(:num)', 'ManageRoom::delete/$1'); 
-});
-
+        //route to room management
+        $routes->get('rooms', 'ManageRoom::viewRoom');
+        $routes->get('rooms/create', 'ManageRoom::create');
+        $routes->post('rooms/store', 'ManageRoom::store');
+        $routes->get('rooms/edit/(:num)', 'ManageRoom::edit/$1');
+        $routes->post('rooms/update/(:num)', 'ManageRoom::update/$1');
+        $routes->get('rooms/delete/(:num)', 'ManageRoom::delete/$1');
+    });
 });

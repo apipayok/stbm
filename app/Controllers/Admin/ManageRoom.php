@@ -4,67 +4,63 @@ namespace App\Controllers\Admin;
 
 use App\Models\RoomModel;
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class ManageRoom extends BaseController
 {
+    protected $roomModel;
+
+    public function __construct()
+    {
+        $this->roomModel = new RoomModel();
+    }
+
     public function viewRoom()
     {
-        $RoomModel = new RoomModel();
-        $data['rooms'] = $RoomModel->findAll();
-
-        return view('admin/admin_rooms', $data);
+        $rooms = $this->roomModel->findAll();
+        return view('admin/admin_rooms', ['rooms' => $rooms]);
     }
-    
-    //open up create form
+
     public function create()
     {
         return view('rooms/create_room');
     }
-    //store the created room
+
     public function store()
     {
-        $RoomModel = new RoomModel();
-        $data = [
-            'roomId'   => $this->request->getPost('roomId'),
-            'roomName' => $this->request->getPost('roomName'),
-            'info'     => $this->request->getPost('info'),
-        ];
-        $RoomModel->save($data);
+        $data = $this->request->getPost([
+            'roomId',
+            'roomName',
+            'status'
+        ]);
 
-        return redirect()->to('admin/rooms');
+        $data['status'] = $data['status'] ?? 'available';
+        $this->roomModel->insert($data);
+
+        return redirect()->to('admin/rooms')->with('success', 'Room added successfully.');
     }
 
-    //open edit form
+
     public function edit($id)
     {
-        $RoomModel = new RoomModel();
-        $data['rooms'] = $RoomModel->find($id);
+        $room = $this->roomModel->find($id);
+        if (!$room) {
+            return redirect()->to('admin/rooms')->with('error', 'Room not found.');
+        }
 
-        return view('rooms/edit_room', $data);
+        return view('rooms/edit_room', ['room' => $room]);
     }
-    //update edited room
+
     public function update($id)
     {
-        $RoomModel = new RoomModel();
-        $data = [
-            'roomId'   => $this->request->getPost('roomId'),
-            'roomName' => $this->request->getPost('roomName'),
-            'info'     => $this->request->getPost('info'),
-        ];
+        $data = $this->request->getPost(['roomId', 'roomName', 'status']);
+        $this->roomModel->update($id, $data);
 
-        $RoomModel->update($id, $data);
-        return redirect()->to('admin/rooms');
+        return redirect()->to('admin/rooms')->with('success', 'Room updated successfully.');
     }
 
-    //delete room
     public function delete($id)
     {
-        $RoomModel = new RoomModel();
-        $RoomModel->delete($id);
-
-        return redirect()->to('admin/rooms');
+        $this->roomModel->delete($id);
+        return redirect()->to('admin/rooms')->with('success', 'Room deleted successfully.');
     }
-
 }
-    
