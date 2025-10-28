@@ -6,6 +6,7 @@ namespace App\Libraries;
 use App\Models\UserModel;
 use App\Models\RoomModel;
 use App\Models\BookingModel;
+use App\Models\AnnouncementModel;
 
 class Model
 {
@@ -24,6 +25,11 @@ class Model
     public static function room()
     {
         return self::$instances['room'] ??= new RoomModel();
+    }
+
+    public static function announcement()
+    {
+        return self::$instances['announcement'] ??= new AnnouncementModel();
     }
 }
 
