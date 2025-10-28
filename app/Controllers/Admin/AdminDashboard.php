@@ -10,18 +10,23 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminDashboard extends BaseController
 {
-    
-    public function view()
+    protected $bookingModel;
+    protected $userModel;
+    protected $roomModel;
+
+    public function __construct()
     {
-        $bookingModel = new BookingModel();
-        $userModel = new UserModel();
-        $roomModel = new RoomModel();
-
-        
-
+        $this->bookingModel = new BookingModel();
+        $this->userModel = new UserModel();
+        $this->roomModel = new RoomModel();
     }
 
+    public function view() 
+    {
+        $bookings = $this->bookingModel->findAll();
 
+        return view('admin/dashboard', $bookings);
+    }
 }
 
 /* admin dashboard

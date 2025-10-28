@@ -8,15 +8,19 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class BookingDashboard extends BaseController
 {
+    protected $bookingModel;
+    public function __construct()
+    {
+        $this->bookingModel = new BookingModel();
+    }
     public function view()
     {
-        $bookingModel = new BookingModel();
-        $bookings = $bookingModel->findAll();
+        $bookings = $this->bookingModel->findAll();
 
-        $approvedCount = $bookingModel->where('status', 'approved')->countAllResults();
-        $rejectedCount = $bookingModel->where('status', 'rejected')->countAllResults();
-        $pendingCount = $bookingModel->where('status', 'pending')->countAllResults();
-        $totalCount = $bookingModel->countAllResults();
+        $approvedCount = $this->bookingModel->where('status', 'approved')->countAllResults();
+        $rejectedCount = $this->bookingModel->where('status', 'rejected')->countAllResults();
+        $pendingCount = $this->bookingModel->where('status', 'pending')->countAllResults();
+        $totalCount = $this->bookingModel->countAllResults();
 
         $data = [
             'bookings' => $bookings,
