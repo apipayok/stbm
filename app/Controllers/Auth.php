@@ -47,7 +47,7 @@ class Auth extends BaseController
                 ]);
 
                 if ($user['is_admin'] == 1){
-                    return redirect()->to('/dashboard');//japgi ubah - buat admin dashboard lak
+                    return redirect()->to('admin/dashboard');//japgi ubah - buat admin dashboard lak
                 }else{
                 return redirect()->to('/dashboard');
                 }

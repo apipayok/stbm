@@ -4,7 +4,6 @@ namespace App\Controllers\Admin;
 
 use App\Libraries\Model;
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class AdminDashboard extends BaseController
 {
@@ -13,33 +12,35 @@ class AdminDashboard extends BaseController
         $bookings = Model::booking()->findAll();
         $users = Model::user()->findAll();
         $rooms = Model::room()->findAll();
+        $announcements = Model::announcement()->orderBy('created_at', 'DESC')->findAll();
 
         $data = [
-            'title' => 'Admin Dashboard',
             'bookings' => $bookings,
             'users' => $users,
             'rooms' => $rooms,
+            'announcements' => $announcements,
+            'message' => empty($announcements) ? 'No current announcements.' : '',
         ];
-        return view('admin/dashboard', ['data' => $data]);
+
+        return view('admin/admin_dashboard', ['data' => $data]);
     }
 
     public function viewRoom()
     {
         $rooms = Model::room()->where('status', 'hidden')->findAll();
-        return view('admin/hidden_rooms', ['rooms' => $rooms]);
+        $data = ['rooms' => $rooms];
+        return view('admin/hidden_rooms', ['data' => $data]); // kiv dulu
     }
 
     public function announcement()
     {
-        $announcements = Model::announcement()->findAll();
-        if (!$announcements){
+        $data = $this->request->getPost([
+            'title',
+            'content'
+        ]);
 
-        };
+        Model::announcement()->insert($data);
+
+        return redirect()->to('admin/dashboard');
     }
 }
-
-/* admin dashboard
-- view recent activites
-- view hidden room
-- buat/view announcement
-*/

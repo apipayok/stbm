@@ -30,6 +30,11 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'admin'], function ($routes) //admin route kat sini
     {
+        //route for admin dashboard
+        $routes->get('dashboard', 'AdminDashboard::view');
+        $routes->get('dashboard/viewRoom', 'AdminDashboard::viewRoom');
+        $routes->post('dashboard/announcement', 'AdminDashboard::announcement');
+
         //route to user management
         $routes->get('users', 'ManageUser::viewUsers');
         $routes->get('users/toggle-admin/(:num)', 'ManageUser::toggleAdmin/$1');
@@ -38,7 +43,6 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         //routes to booking management
         $routes->get('bookings', 'BookingDashboard::view');
         $routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
-
         $routes->get('bookings/(:segment)', 'ManageBooking::view/$1'); // view pending/approved/rejected
         $routes->post('update/(:any)', 'ManageBooking::updateStatus/$1');
         $routes->get('delete/(:any)', 'ManageBooking::delete/$1');

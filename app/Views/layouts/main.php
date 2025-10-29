@@ -18,12 +18,20 @@
             <?php $uri = service('uri'); ?>
             <h4 class="mb-4">STBM</h4>
             <ul class="nav flex-column">
+
+                <!-- user start -->
+                <?php if (session()->get('is_admin') === 0): ?> 
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Utama</a>
                 </li>
+                <?php endif ?>
+
                 <!-- admin start -->
                 <?php if (session()->get('is_admin') == 1): ?> 
-
+                
+                <li class="nav-item mb-2">
+                    <a class="nav-link text-white" href="<?= site_url('admin/dashboard') ?>">Utama</a>
+                </li>
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Pengguna</a>
                 </li>

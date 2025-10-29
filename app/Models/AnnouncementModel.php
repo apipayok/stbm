@@ -10,9 +10,8 @@ class AnnouncementModel extends Model
     protected $primaryKey = 'id';
 
     protected $allowedFields = [
-        'content',
+        'title',
+        'content'
     ];
-
-    //make created/updted_at
     protected $useTimestamps = true;
 }

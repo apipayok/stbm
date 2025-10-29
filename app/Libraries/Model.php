@@ -1,5 +1,5 @@
 <?php
-//refactor kemudian
+//refactor function ikut ni nanti
 
 namespace App\Libraries;
 
