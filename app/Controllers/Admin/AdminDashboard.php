@@ -29,7 +29,7 @@ class AdminDashboard extends BaseController
     {
         $rooms = Model::room()->where('status', 'hidden')->findAll();
         $data = ['rooms' => $rooms];
-        return view('admin/hidden_rooms', ['data' => $data]); // kiv dulu
+        return view('admin/admin_dashboard', ['data' => $data]); // kiv dulu
     }
 
     public function announcement()

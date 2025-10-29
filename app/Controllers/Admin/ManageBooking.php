@@ -19,7 +19,7 @@ class ManageBooking extends BaseController
     public function view($status = 'pending')
     {
         $bookings = $this->bookingModel->where('status', $status)->findAll();
-        return view("bookings/manage_{$status}", ['bookings' => $bookings]);
+        return view("bookings/manage_{$status}", ['bookings' => $bookings, 'status' => $status]);
     }
 
     public function updateStatus($bookingId)

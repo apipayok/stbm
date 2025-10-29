@@ -42,7 +42,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
         //routes to booking management
         $routes->get('bookings', 'BookingDashboard::view');
-        $routes->post('bookings/edit/(:any)', 'ManageBooking::editBooking/$1');
+        $routes->post('bookings/edit/(:any)', 'ManageBooking::updateStatus/$1');
         $routes->get('bookings/(:segment)', 'ManageBooking::view/$1'); // view pending/approved/rejected
         $routes->post('update/(:any)', 'ManageBooking::updateStatus/$1');
         $routes->get('delete/(:any)', 'ManageBooking::delete/$1');

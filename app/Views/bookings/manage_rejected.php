@@ -11,9 +11,7 @@
         <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
     <?php endif; ?>
 
-    <?php if (empty($rejected)): ?>
-        <div class="alert alert-info">No rejected bookings found.</div>
-    <?php else: ?>
+    <?php if (!empty($bookings)): ?>
         <table class="table table-bordered table-striped">
             <thead class="table-danger">
                 <tr>
@@ -28,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $no = 1; foreach ($rejected as $booking): ?>
+                <?php $no = 1; foreach ($bookings as $booking): ?>
                     <tr>
                         <td><?= $no++ ?></td>
                         <td><?= esc($booking['bookingId']) ?></td>
@@ -48,6 +46,8 @@
                 <?php endforeach; ?>
             </tbody>
         </table>
+    <?php else: ?>
+        <div class="alert alert-info">No rejected bookings found.</div>
     <?php endif; ?>
 </div>
 

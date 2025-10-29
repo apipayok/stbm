@@ -20,11 +20,11 @@
             <ul class="nav flex-column">
 
                 <!-- user start -->
-                <?php if (session()->get('is_admin') === 0): ?> 
+                <?php if (session()->get('is_admin') == 0): ?> 
                 <li class="nav-item mb-2">
                     <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Utama</a>
                 </li>
-                <?php endif ?>
+                <?php endif; ?>
 
                 <!-- admin start -->
                 <?php if (session()->get('is_admin') == 1): ?> 
