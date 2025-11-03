@@ -14,27 +14,36 @@ class AdminDashboard extends BaseController
         $rooms = Model::room()->findAll();
         $announcements = Model::announcement()->orderBy('created_at', 'DESC')->findAll();
 
+        $countHidden = Model::room()->where('status', 'hidden')->countAllResults();
+        $countAvailable = Model::room()->where('status', 'available')->countAllResults();
+
+        $hidden = Model::room()->where('status', 'hidden')->findAll();
+        
+        $message = [];
+        if(empty($announcements)){
+            $message[] = 'Tiada Pengumumuman';
+        }
+        if(empty($hidden)){
+            $message[] = 'Tiada Bilik Tersembunyi';
+        }
+
         $data = [
             'bookings' => $bookings,
             'users' => $users,
             'rooms' => $rooms,
             'announcements' => $announcements,
-            'message' => empty($announcements) ? 'No current announcements.' : '',
+            'message' => $message,
+            'countHidden' => $countHidden,
+            'countAvailable' => $countAvailable,
+            'hidden' => $hidden
         ];
 
         return view('admin/admin_dashboard', ['data' => $data]);
     }
 
-    public function viewRoom()
-    {
-        $rooms = Model::room()->where('status', 'hidden')->findAll();
-        $data = ['rooms' => $rooms];
-        return view('admin/admin_dashboard', ['data' => $data]); // kiv dulu
-    }
-
     public function announcement()
     {
-        $data = $this->request->getPost([
+        $data = Post([
             'title',
             'content'
         ]);

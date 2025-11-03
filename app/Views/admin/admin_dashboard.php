@@ -1,97 +1,106 @@
 <?= $this->extend('layouts/main') ?>
-
 <?= $this->section('content') ?>
-<div class="container my-4">
-    <h1 class="mb-4">Selamat Datang, Admin!</h1>
 
-    <!-- ====== Summary Cards ====== -->
-    <div class="row g-3 mb-4">
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="text-secondary">Total Users</h5>
-                    <h2 class="fw-bold text-primary"><?= count($data['users'] ?? []) ?></h2>
+<div class="container mt-4">
+    <h2 class="mb-4 text-primary">Admin Dashboard</h2>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center border-success">
+                <div class="card-body">
+                    <h5 class="card-title text-success">Available Rooms</h5>
+                    <h3><?= esc($data['countAvailable']) ?></h3>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="text-secondary">Total Rooms</h5>
-                    <h2 class="fw-bold text-success"><?= count($data['rooms'] ?? []) ?></h2>
+
+        <div class="col-md-3">
+            <div class="card text-center border-danger">
+                <div class="card-body">
+                    <h5 class="card-title text-danger">Hidden Rooms</h5>
+                    <h3><?= esc($data['countHidden']) ?></h3>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="text-secondary">Total Bookings</h5>
-                    <h2 class="fw-bold text-warning"><?= count($data['bookings'] ?? []) ?></h2>
+
+        <div class="col-md-3">
+            <div class="card text-center border-info">
+                <div class="card-body">
+                    <h5 class="card-title text-info">Total Users</h5>
+                    <h3><?= count($data['users']) ?></h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-center border-warning">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">Total Bookings</h5>
+                    <h3><?= count($data['bookings']) ?></h3>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ====== Announcements Section ====== -->
-    <div class="card shadow-sm mb-4 border-0">
-        <div class="card-header bg-secondary text-white d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">Announcements</h5>
-            <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#addAnnouncementModal">
-                + New Announcement
-            </button>
-        </div>
+    <!-- System Messages -->
+    <?php if (!empty($data['message'])): ?>
+        <?php foreach ($data['message'] as $msg): ?>
+            <div class="alert alert-info"><?= esc($msg) ?></div>
+        <?php endforeach; ?>
+    <?php endif; ?>
+
+    <!-- Announcements -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">📢 Announcements</div>
         <div class="card-body">
             <?php if (!empty($data['announcements'])): ?>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group">
                     <?php foreach ($data['announcements'] as $a): ?>
                         <li class="list-group-item">
-                            <strong><?= esc($a['title'] ?? 'Untitled') ?></strong><br>
-                            <span><?= esc($a['content']) ?></span>
-                            <div class="text-muted small mt-1">
-                                Posted <?= esc($a['created_at'] ?? '') ?>
-                            </div>
+                            <strong><?= esc($a['title']) ?></strong><br>
+                            <?= esc($a['content']) ?><br>
+                            <small class="text-muted">Posted <?= esc(date('d M Y', strtotime($a['created_at']))) ?></small>
                         </li>
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
-                <p class="text-muted mb-0"><?= $data['message'] ?? 'No announcements found.' ?></p>
+                <p class="text-muted">No announcements yet.</p>
             <?php endif; ?>
         </div>
     </div>
 
-    <!-- ====== Hidden Rooms Shortcut ====== -->
-    <div class="card shadow-sm border-0">
-        <div class="card-body text-center">
-            <h5 class="card-title">Hidden Rooms</h5>
-            <p class="text-muted">View rooms that are currently marked as hidden.</p>
-            <a href="<?= base_url('admin/dashboard/viewRoom') ?>" class="btn btn-outline-primary">View Hidden Rooms</a>
+    <!-- Hidden Rooms -->
+    <div class="card">
+        <div class="card-header bg-danger text-white">🚪 Hidden Rooms</div>
+        <div class="card-body">
+            <?php if (!empty($data['hidden'])): ?>
+                <table class="table table-bordered table-striped">
+                    <thead class="table-danger">
+                        <tr>
+                            <th>#</th>
+                            <th>Room Name</th>
+                            <th>Type</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; foreach ($data['hidden'] as $room): ?>
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= esc($room['roomName']) ?></td>
+                                <td><?= esc($room['type'] ?? '-') ?></td>
+                                <td><span class="badge bg-danger"><?= esc($room['status']) ?></span></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p class="text-muted">No hidden rooms found.</p>
+            <?php endif; ?>
         </div>
     </div>
-</div>
 
-<!-- ====== Modal: Add Announcement ====== -->
-<div class="modal fade" id="addAnnouncementModal" tabindex="-1" aria-labelledby="addAnnouncementModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <form action="<?= base_url('admin/dashboard/announcement') ?>" method="post" class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addAnnouncementModalLabel">Create New Announcement</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label">Title</label>
-          <input type="text" name="title" class="form-control" placeholder="Announcement title" required>
-        </div>
-        <div class="mb-3">
-          <label class="form-label">Content</label>
-          <textarea name="content" class="form-control" rows="4" placeholder="Write your announcement..." required></textarea>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary">Post Announcement</button>
-      </div>
-    </form>
-  </div>
 </div>
 
 <?= $this->endSection() ?>

@@ -1,35 +1,32 @@
 <?= $this->extend('layouts/main') ?>
-
 <?= $this->section('content') ?>
 
-<div class="container mt-5">
-    <h2 class="mb-4 text-center">Create Room</h2>
+<div class="container mt-4">
+    <h2 class="mb-4">Create New Room</h2>
 
-    <form action="<?= site_url('admin/rooms/store') ?>" method="post" class="card p-4 shadow-sm">
+    <form action="<?= base_url('admin/rooms/create') ?>" method="post">
         <?= csrf_field() ?>
-
+        
         <div class="mb-3">
             <label for="roomId" class="form-label">Room ID</label>
-            <input type="text" name="roomId" id="roomId" class="form-control" placeholder="e.g. R001" required>
+            <input type="text" name="roomId" id="roomId" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="roomName" class="form-label">Room Name</label>
-            <input type="text" name="roomName" id="roomName" class="form-control" placeholder="e.g. Meeting Room A" required>
+            <input type="text" name="roomName" id="roomName" class="form-control" required>
         </div>
 
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>
-            <select name="status" id="status" class="form-select" required>
-                <option value="available" selected>Available</option>
-                <option value="unavailable">Unavailable</option>
+            <select name="status" id="status" class="form-select">
+                <option value="available">Available</option>
+                <option value="hidden">Hidden</option>
             </select>
         </div>
 
-        <div class="d-flex justify-content-between">
-            <a href="<?= site_url('admin/rooms') ?>" class="btn btn-secondary">Cancel</a>
-            <button type="submit" class="btn btn-success">Create Room</button>
-        </div>
+        <button type="submit" class="btn btn-success">Add Room</button>
+        <a href="<?= base_url('admin/rooms/view') ?>" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 

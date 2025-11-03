@@ -65,7 +65,7 @@
                 <!-- dropdown setting -->
 
                 <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/rooms') ?>">Bilik Mesyuarat</a>
+                    <a class="nav-link text-white" href="<?= site_url('admin/rooms/view') ?>">Bilik Mesyuarat</a>
                 </li>
                 <?php endif; ?> 
                 <!-- admin end -->

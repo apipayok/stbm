@@ -2,65 +2,60 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\RoomModel;
+use App\Libraries\Model;
 use App\Controllers\BaseController;
+
 
 class ManageRoom extends BaseController
 {
-    protected $roomModel;
-
-    public function __construct()
+    public function view()
     {
-        $this->roomModel = new RoomModel();
-    }
+        $rooms = Model::room()->findAll();
+        //tambah filter
 
-    public function viewRoom()
-    {
-        $rooms = $this->roomModel->findAll();
-        return view('admin/admin_rooms', ['rooms' => $rooms]);
+        return view('rooms/view_room', ['rooms' => $rooms]);
     }
-
-    public function create()
+    public function createView()
     {
         return view('rooms/create_room');
     }
-
-    public function store()
+    public function create()
     {
-        $data = $this->request->getPost([
-            'roomId',
-            'roomName',
-            'status'
-        ]);
+        $data = [
+            'roomId' => Post('roomId'),
+            'roomName' => Post('roomName'),
+            'status' => Post('status') ?? 'available'
+        ];
 
-        $data['status'] = $data['status'] ?? 'available';
-        $this->roomModel->insert($data);
+        Model::room()->insert($data);
 
-        return redirect()->to('admin/rooms')->with('success', 'Room added successfully.');
+        return redirect()->to('admin/rooms/view');
     }
 
-
-    public function edit($id)
+    public function editView($roomId)
     {
-        $room = $this->roomModel->find($id);
+        $room = Model::room()->where('roomId', $roomId)->first();
         if (!$room) {
-            return redirect()->to('admin/rooms')->with('error', 'Room not found.');
+            return redirect()->to('admin/rooms/view')->with('error', 'Room not found.');
         }
 
         return view('rooms/edit_room', ['room' => $room]);
     }
-
-    public function update($id)
+    public function edit($roomId)
     {
-        $data = $this->request->getPost(['roomId', 'roomName', 'status']);
-        $this->roomModel->update($id, $data);
+        $data = [
+            'roomName' => Post('roomName'),
+            'status' => Post('status'),
+        ];
 
-        return redirect()->to('admin/rooms')->with('success', 'Room updated successfully.');
+        Model::room()->where('roomId', $roomId)->set($data)->update();
+
+        return redirect()->to('admin/rooms/view');
     }
 
-    public function delete($id)
+    public function delete($roomId)
     {
-        $this->roomModel->delete($id);
-        return redirect()->to('admin/rooms')->with('success', 'Room deleted successfully.');
+        Model::room()->where('roomId', $roomId)->delete();
+        return redirect()->to('admin/rooms/view');
     }
 }

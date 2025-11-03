@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\Admin\ManageRoom;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -48,11 +49,13 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
         $routes->get('delete/(:any)', 'ManageBooking::delete/$1');
 
         //route to room management
-        $routes->get('rooms', 'ManageRoom::viewRoom');
-        $routes->get('rooms/create', 'ManageRoom::create');
-        $routes->post('rooms/store', 'ManageRoom::store');
-        $routes->get('rooms/edit/(:num)', 'ManageRoom::edit/$1');
-        $routes->post('rooms/update/(:num)', 'ManageRoom::update/$1');
-        $routes->get('rooms/delete/(:num)', 'ManageRoom::delete/$1');
+        $routes->get('rooms/view', 'ManageRoom::view');
+        $routes->get('rooms/create', 'ManageRoom::createView');
+        $routes->post('rooms/create', 'ManageRoom::create');
+        $routes->get('rooms/edit/(:any)', 'ManageRoom::editView/$1');
+        $routes->post('rooms/edit/(:any)', 'ManageRoom::edit/$1');
+
+        $routes->get('rooms/delete/(:any)', 'ManageRoom::delete/$1');
+        $routes->post('rooms/delete/(:any)', 'ManageRoom::delete/$1');
     });
 });

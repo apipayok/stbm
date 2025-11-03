@@ -2,25 +2,20 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\BookingModel;
+use App\Libraries\Model;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class BookingDashboard extends BaseController
 {
-    protected $bookingModel;
-    public function __construct()
-    {
-        $this->bookingModel = new BookingModel();
-    }
     public function view()
     {
-        $bookings = $this->bookingModel->findAll();
+        $bookings = Model::booking()->findAll();
 
-        $approvedCount = $this->bookingModel->where('status', 'approved')->countAllResults();
-        $rejectedCount = $this->bookingModel->where('status', 'rejected')->countAllResults();
-        $pendingCount = $this->bookingModel->where('status', 'pending')->countAllResults();
-        $totalCount = $this->bookingModel->countAllResults();
+        $approvedCount = Model::booking()->where('status', 'approved')->countAllResults();
+        $rejectedCount = Model::booking()->where('status', 'rejected')->countAllResults();
+        $pendingCount = Model::booking()->where('status', 'pending')->countAllResults();
+        $totalCount = Model::booking()->countAllResults();
 
         $data = [
             'bookings' => $bookings,
@@ -32,10 +27,4 @@ class BookingDashboard extends BaseController
 
         return view('admin/admin_bookings', $data);
     }
-
-    public function filterBookings()
-    {
-        // Placeholder for future filter logic
-    }
-
 }

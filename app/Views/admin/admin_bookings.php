@@ -49,31 +49,6 @@
         </div>
     </div>
 
-    <!-- Filters / Search Placeholder -->
-    <div class="card mb-4 shadow-sm">
-        <div class="card-body">
-            <form class="row g-3">
-                <div class="col-md-4">
-                    <input type="text" name="search" class="form-control" placeholder="Search by user, room or ID...">
-                </div>
-                <div class="col-md-3">
-                    <select class="form-select" name="status">
-                        <option value="">All Status</option>
-                        <option value="pending">Pending</option>
-                        <option value="approved">Approved</option>
-                        <option value="rejected">Rejected</option>
-                    </select>
-                </div>
-                <div class="col-md-3">
-                    <input type="date" class="form-control" name="date">
-                </div>
-                <div class="col-md-2">
-                    <button class="btn btn-primary w-100">Filter</button> <!-- Placeholder button -->
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- Recent Bookings Table -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
@@ -123,14 +98,5 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Placeholder for Calendar or Alerts -->
-    <div class="card shadow-sm">
-        <div class="card-body text-center text-muted">
-            <p>📅 Calendar view and alerts/notifications will be added here.</p>
-        </div>
-    </div>
-</div>
 
 <?= $this->endSection() ?>
