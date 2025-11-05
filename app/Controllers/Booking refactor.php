@@ -11,7 +11,6 @@ class Booking extends BaseController
     public function check($roomId, $slot)
     {
         $bookings = Model::booking();
-        $room = Model::room()->where('roomId', $roomId)->first();
 
         $slot = urldecode($slot);
         $date = Get('date') ?? date('Y-m-d');
@@ -27,24 +26,20 @@ class Booking extends BaseController
         } else {
             $book = 'available';
         }
-        return view('bookings/create_booking', ['book' => $book, 'room' => $room]);
+        return view('bookings/create_booking', ['book' => $book]);
     }
 
-    public function create($roomId)
+    public function create($roomId, $slot)
     {
         $bookings = Model::booking();
-        $room = Model::room()->where('roomId', $roomId)->first();
+        $room = Model::room()->find($roomId);
 
-        $slots = Post('slots');
+        $slot = urldecode($slot);
         $date = Post('date');
 
-        if (!$slots) {
-            return redirect()->back()->with('error', 'Invalid Request.');
-        }
+        $bookingId = 'BK-' . date('Ymd') . '-' . substr(uniqid(), -4);
 
-        foreach ($slots as $slot) {
-            $bookingId = 'BK-' . date('Ymd') . '-' . substr(uniqid(), -4);
-            $bookings->insert([
+        $bookings->insert([
             'bookingId' => $bookingId,
             'roomId'    => $roomId,
             'roomName'  => $room['roomName'],
@@ -54,7 +49,6 @@ class Booking extends BaseController
             'time_slot' => $slot,
             'status'    => 'pending',
         ]);
-        }
 
         return redirect()->to('/rooms/' . $roomId . '?date=' . $date);
     }

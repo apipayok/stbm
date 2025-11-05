@@ -6,16 +6,36 @@
     <div class="row">
         <?php if (!empty($rooms)): ?>
             <?php foreach ($rooms as $room): ?>
+                <?php
+                    $isHidden = $room['status'] === 'hidden';
+                    $cardClass = $isHidden ? 'bg-light text-muted' : 'bg-white';
+                    $cardStyle = $isHidden
+                        ? 'cursor: not-allowed; opacity: 0.6; pointer-events: none;'
+                        : 'cursor: pointer; transition: transform 0.2s;';
+                ?>
+
                 <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm h-100">
-                        <div class="card-body text-center">
-                            <h5 class="card-title"><?= esc($room['roomName']) ?></h5>
-                            <p class="card-text">Room ID: <?= esc($room['roomId']) ?></p>
-                            <a href="<?= site_url('rooms/' . $room['roomId']) ?>" class="btn btn-primary">
-                                View Available Slots
-                            </a>
+                    <?php if (!$isHidden): ?>
+                        <!-- Clickable card for available room -->
+                        <a href="<?= site_url('rooms/' . $room['roomId']) ?>" class="text-decoration-none text-dark">
+                            <div class="card shadow-sm h-100 <?= $cardClass ?>" style="<?= $cardStyle ?>"
+                                 onmouseover="this.style.transform='scale(1.02)';"
+                                 onmouseout="this.style.transform='scale(1)';">
+                                <div class="card-body text-center d-flex flex-column justify-content-center">
+                                    <h5 class="card-title mb-2"><?= esc($room['roomName']) ?></h5>
+                                    <p class="card-text mb-0">Room ID: <?= esc($room['roomId']) ?></p>
+                                </div>
+                            </div>
+                        </a>
+                    <?php else: ?>
+                        <!-- Greyed-out, unclickable card -->
+                        <div class="card shadow-sm h-100 <?= $cardClass ?>" style="<?= $cardStyle ?>">
+                            <div class="card-body text-center d-flex flex-column justify-content-center">
+                                <h5 class="card-title mb-2"><?= esc($room['roomName']) ?></h5>
+                                <p class="card-text mb-0">Room ID: <?= esc($room['roomId']) ?></p>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>

@@ -28,6 +28,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 
     // Booking actions
     $routes->get('/booking/check/(:num)/(:any)', 'Booking::check/$1/$2');
+    $routes->post('/booking/create/(:num)', 'Booking::create/$1');
 
     $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'admin'], function ($routes) //admin route kat sini
     {

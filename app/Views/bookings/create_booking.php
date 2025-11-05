@@ -8,7 +8,7 @@
             <p><strong>Room ID:</strong> <?= esc($room['roomId']) ?></p>
             <hr>
 
-            <!-- Date selector -->
+            <!-- ✅ Date selector -->
             <form method="get" class="mb-4">
                 <label for="date" class="me-2"><strong>Select Date:</strong></label>
                 <input 
@@ -23,53 +23,62 @@
 
             <h5>Time Slots for <?= date('d-m-Y', strtotime($selectedDate ?? date('Y-m-d'))) ?>:</h5>
 
+            <!-- ✅ Flash messages -->
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
             <?php elseif (session()->getFlashdata('error')): ?>
                 <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
             <?php endif; ?>
             
-            <!-- edit booking status sini -->
+            <!-- ✅ Multiple slot selection form -->
             <?php if (!empty($timeSlots)): ?>
-                <ul class="list-group mb-3">
-                    <?php foreach ($timeSlots as $slot): ?>
-                        <?php
-                            $status = $slot['status'];
-                            $statusMessage = match ($status) {
-                                'booked' => 'Room Reserved',
-                                'pending' => 'Awaiting Approval',
-                                'unavailable' => 'Not Available',
-                                default => 'Available',
-                            };
-                            $badgeClass = match ($status) {
-                                'booked' => 'status-approved',
-                                'pending' => 'status-pending',
-                                'unavailable' => 'status-unavailable',
-                                default => 'status-available',
-                            };
-                        ?>
-                        <li class="list-group-item slot-item d-flex justify-content-between align-items-center">
-                            <span><?= esc($slot['slot']) ?></span>
+                <form method="post" action="<?= base_url('booking/create/' . $room['roomId']) ?>">
+                    <input type="hidden" name="date" value="<?= esc($selectedDate ?? date('Y-m-d')) ?>">
 
-                            <?php if ($status === 'available'): ?>
-                                <!--  Pass selected date in the booking link -->
-                                <a href="<?= base_url('booking/check/' . $room['roomId'] . '/' . urlencode($slot['slot'])) ?>?date=<?= esc($selectedDate ?? date('Y-m-d')) ?>"
-                                   class="btn btn-sm btn-success">
-                                    Book
-                                </a>
-                            <?php else: ?>
-                                <span class="badge status-badge <?= $badgeClass ?>">
-                                    <?= $statusMessage ?>
-                                </span>
-                            <?php endif; ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                    <ul class="list-group mb-3">
+                        <?php foreach ($timeSlots as $slot): ?>
+                            <?php
+                                $status = $slot['status'];
+                                $isAvailable = $status === 'available';
+                            ?>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span><?= esc($slot['slot']) ?></span>
+
+                                <?php if ($isAvailable): ?>
+                                    <!-- ✅ Checkboxes for available slots -->
+                                    <input 
+                                        type="checkbox" 
+                                        name="slots[]" 
+                                        value="<?= esc($slot['slot']) ?>" 
+                                        class="form-check-input"
+                                    >
+                                <?php else: ?>
+                                    <span class="badge 
+                                        <?= match ($status) {
+                                            'booked' => 'status-approved',
+                                            'pending' => 'status-pending',
+                                            'unavailable' => 'status-unavailable',
+                                            default => 'status-available'
+                                        } ?>">
+                                        <?= match ($status) {
+                                            'booked' => 'Room Reserved',
+                                            'pending' => 'Awaiting Approval',
+                                            'unavailable' => 'Not Available',
+                                            default => 'Available'
+                                        } ?>
+                                    </span>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <button type="submit" class="btn btn-success">Book Selected Slots</button>
+                </form>
             <?php else: ?>
                 <p class="text-danger">No available slots for this date.</p>
             <?php endif; ?>
 
-            <a href="<?= site_url('/rooms') ?>" class="btn btn-secondary">← Back to Rooms</a>
+            <a href="<?= site_url('/rooms') ?>" class="btn btn-secondary mt-3">← Back to Rooms</a>
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Model;
 use App\Models\BookingModel;
 use App\Models\RoomModel;
 use App\Controllers\BaseController;
@@ -10,19 +11,24 @@ use App\Controllers\Function\TimeSlot;
 
 class Room extends BaseController
 {
-    
     public function view() //but card untuk rooms
     {
-        $roomModel = new RoomModel();
-        $data['rooms'] = $roomModel->findAll();
+        $rooms = Model::room()->findAll();
+        $hidden = Model::room()->where('status', 'hidden')->findAll();
+        $available = Model::room()->where('status', 'available')->findAll();
 
+        $data = [
+            'rooms' => $rooms,
+            'hidden' => $hidden,
+            'available' => $available
+        ];
         return view('pages/rooms', $data);
     }
 
     public function details($roomId) //details bilik after clicked on cards
     {
         $helper = new BookingHelper();
-        $bookingModel = new \App\Models\BookingModel();
+        $bookings = Model::booking();
 
         // Get room info
         $roomData = $helper->transformBook($roomId);
@@ -35,10 +41,10 @@ class Room extends BaseController
             }
 
 
-        $selectedDate = $this->request->getGet('date') ?? date('Y-m-d');
+        $selectedDate = Get('date') ?? date('Y-m-d');
         $timeSlots = TimeSlot::timeSlots($roomId);
 
-        $bookings = $bookingModel
+        $bookings = $bookings
             ->where('roomId', $roomId)
             ->where('date', $selectedDate)
             ->findAll();
