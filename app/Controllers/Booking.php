@@ -4,7 +4,6 @@ namespace App\Controllers;
 
 use App\Libraries\Model;
 use App\Controllers\BaseController;
-use App\Controllers\Function\BookingHelper;
 
 class Booking extends BaseController
 {

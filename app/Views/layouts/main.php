@@ -1,87 +1,113 @@
-<!-- app/Views/layouts/main.php -->
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>.:: STBM MAIM | Sistem Tempahan Bilik Mesyuarat MAIM ::.</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('/css/utils/main.css') ?>"> 
+    <link rel="stylesheet" href="<?= base_url('/css/main.css') ?>">
 </head>
 
-<body class="bg-light">
-    <div class="d-flex">
-        <!-- Sidebar -->
-        <nav class="bg-dark text-white p-3 vh-100" style="width: 220px;">
-            <?php $uri = service('uri'); ?>
-            <h4 class="mb-4">STBM</h4>
-            <ul class="nav flex-column">
+<body class="bg-gray-100">
+    <div class="flex">
 
-                <!-- user start -->
-                <?php if (session()->get('is_admin') == 0): ?> 
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('dashboard') ?>">Utama</a>
-                </li>
+        <!-- Sidebar -->
+        <nav class="bg-green-950 text-white p-4 h-screen w-54 flex flex-col">
+            <?php $uri = service('uri'); ?>
+
+            <h4 class="text-xl font-bold mb-6">STBM</h4>
+            <ul class="flex flex-col h-full space-y-2 ">
+
+                <?php if (session()->get('is_admin') == 0): ?>
+                    <li>
+                        <a class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                            href="<?= site_url('dashboard') ?>">
+                            Utama
+                        </a>
+                    </li>
                 <?php endif; ?>
 
-                <!-- admin start -->
-                <?php if (session()->get('is_admin') == 1): ?> 
-                
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/dashboard') ?>">Utama</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/users') ?>">Pengguna</a>
-                </li>
+                <?php if (session()->get('is_admin') == 1): ?>
 
-                <!-- dropdown setting -->
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white d-flex justify-content-between align-items-center <?= ($uri->getSegment(2) === 'bookings') ? 'active' : '' ?>" 
-                        data-bs-toggle="collapse" 
-                        href="#bookingDropdown" 
-                        role="button" 
-                        aria-expanded="<?= ($uri->getSegment(2) === 'bookings') ? 'true' : 'false' ?>" 
-                        aria-controls="bookingDropdown">Tempahan
+                    <li>
+                        <a class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                            href="<?= site_url('admin/dashboard') ?>">
+                            Utama
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                            href="<?= site_url('admin/users') ?>">
+                            Pengguna
+                        </a>
+                    </li>
+
+                    <li>
+                        <button
+                            class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                            onclick="document.getElementById('bookingMenu').classList.toggle('hidden')">
+                            Tempahan
+                            <span></span>
+                        </button>
+
+                        <div id="bookingMenu"
+                            class="pl-4 mt-1 space-y-2 <?= ($uri->getSegment(2) === 'bookings') ? '' : 'hidden' ?>">
+
+                            <a class="block text-white hover:bg-green-900 px-3 py-1 rounded"
+                                href="<?= site_url('admin/bookings') ?>">Dashboard</a>
+                            <a class="block text-white hover:bg-green-900 px-3 py-1 rounded"
+                                href="<?= site_url('admin/bookings/pending') ?>">Kelulusan</a>
+
+                            <a class="block text-white hover:bg-green-900 px-3 py-1 rounded"
+                                href="<?= site_url('admin/bookings/approved') ?>">Dilulus</a>
+
+                            <a class="block text-white hover:bg-green-900 px-3 py-1 rounded"
+                                href="<?= site_url('admin/bookings/rejected') ?>">Ditolak</a>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                            href="<?= site_url('admin/rooms/view') ?>">
+                            Bilik Mesyuarat
+                        </a>
+                    </li>
+
+                <?php endif; ?>
+
+                <li>
+                    <a class="block text-white px-3 py-2 rounded hover:bg-green-900 transform transition duration-200 ease-in-out hover:scale-105"
+                        href="<?= site_url('/rooms') ?>">
+                        Tempah Bilik
                     </a>
-                    <div class="collapse ps-3 <?= ($uri->getSegment(2) === 'bookings') ? 'show' : '' ?>" id="bookingDropdown">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings') ?>">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/pending') ?>">Kelulusan</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/approved') ?>">Dilulus</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-white" href="<?= site_url('admin/bookings/rejected') ?>">Ditolak</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <!-- dropdown setting -->
-
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('admin/rooms/view') ?>">Bilik Mesyuarat</a>
-                </li>
-                <?php endif; ?> 
-                <!-- admin end -->
-
-                <li class="nav-item mb-2">
-                    <a class="nav-link text-white" href="<?= site_url('/rooms') ?>">Tempah Bilik</a>
-                </li>
-                <li class="nav-item mt-3">
-                    <a class="nav-link text-danger" href="<?= site_url('logout') ?>">Logout</a>
                 </li>
 
+                <div class="flex bg-grey-100">
+                </div>
+
+                <li class="mt-auto pt-4">
+                    <a class="block bg-red-900 text-white px-3 py-2 rounded hover:bg-red-800 transform transition duration-200 ease-in-out hover:scale-105"
+                        href="<?= site_url('logout') ?>">
+                        Logout
+                    </a>
+                </li>
             </ul>
         </nav>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<?= $this->renderSection('content') ?>
+        <!-- Main Content Section -->
+        <main class="flex-1 w-full overflow-y-auto">
+            <div>
+                <?= $this->renderSection('content') ?>
+            </div>
+        </main>
+
+    </div>
 
 </body>
+
 </html>

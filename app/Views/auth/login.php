@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-light d-flex justify-content-center align-items-center vh-100">
 
-    <div class="card shadow p-4" style="width: 400px;">
-        <h3 class="text-center mb-4">Login</h3>
+<body class="min-h-screen flex">
 
-        <!-- Show error/success messages -->
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger">
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
+  <!-- Left background section -->
+  <div class="w-2/4 bg-gray-100 flex justify-center items-center">
+    <!-- Login form -->
+    <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+      <h3 class="text-2xl font-semibold text-center mb-6">Log Masuk</h3>
 
-        <?php if (session()->getFlashdata('message')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('message') ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Login form -->
-        <form action="<?= base_url('/login') ?>" method="post">
-            <?= csrf_field() ?>
-
-            <div class="mb-3">
-                <label for="staffno" class="form-label">Staff No</label>
-                <input type="text" class="form-control" id="staffno" name="staffno" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-        </form>
-
-        <div class="mt-3 text-center">
-            <small>Don't have an account? <a href="<?= base_url('/register') ?>">Register here</a></small>
+      <!-- Show error/success messages -->
+      <?php if (session()->getFlashdata('error')): ?>
+        <div class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">
+          <?= session()->getFlashdata('error') ?>
         </div>
+      <?php endif; ?>
+
+      <?php if (session()->getFlashdata('message')): ?>
+        <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+          <?= session()->getFlashdata('message') ?>
+        </div>
+      <?php endif; ?>
+
+      <!-- Login form -->
+      <form action="<?= base_url('/login') ?>" method="post" class="space-y-4">
+        <?= csrf_field() ?>
+
+        <div>
+          <label for="staffno" class="block mb-1 font-medium text-gray-700">No. Staff</label>
+          <input type="text" id="staffno" name="staffno" required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <div>
+          <label for="password" class="block mb-1 font-medium text-gray-700">Kata Laluan</label>
+          <input type="password" id="password" name="password" required
+            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+        </div>
+
+        <button type="submit"
+          class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">
+          Log Masuk
+        </button>
+      </form>
+
+      <div class="mt-4 text-center text-black text-sm">
+        Belum berdaftar? <a href="<?= base_url('/register') ?>" class="text-black font-semibold hover:underline">Daftar</a>
+      </div>
     </div>
+  </div>
+
+  <!-- Right background section -->
+  <div class="w-3/5 bg-green-600 flex justify-center items-center text-white">
+
+  </div>
 
 </body>
+
 </html>

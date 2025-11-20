@@ -23,14 +23,14 @@
 
             <h5>Time Slots for <?= date('d-m-Y', strtotime($selectedDate ?? date('Y-m-d'))) ?>:</h5>
 
-            <!-- ✅ Flash messages -->
+            <!-- Flash messages -->
             <?php if (session()->getFlashdata('success')): ?>
                 <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
             <?php elseif (session()->getFlashdata('error')): ?>
                 <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
             <?php endif; ?>
             
-            <!-- ✅ Multiple slot selection form -->
+            <!-- Multiple slot selection form -->
             <?php if (!empty($timeSlots)): ?>
                 <form method="post" action="<?= base_url('booking/create/' . $room['roomId']) ?>">
                     <input type="hidden" name="date" value="<?= esc($selectedDate ?? date('Y-m-d')) ?>">
@@ -45,7 +45,7 @@
                                 <span><?= esc($slot['slot']) ?></span>
 
                                 <?php if ($isAvailable): ?>
-                                    <!-- ✅ Checkboxes for available slots -->
+                                    <!-- Checkboxes for available slots -->
                                     <input 
                                         type="checkbox" 
                                         name="slots[]" 

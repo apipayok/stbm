@@ -1,53 +1,61 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<div class="container mt-4">
-    <h2 class="mb-4 text-danger">Rejected Bookings</h2>
+<div class="container mx-auto px-4 mt-8">
+    <h2 class="mb-6 text-2xl font-bold text-red-600">Rejected Bookings</h2>
 
     <!-- Flash messages -->
     <?php if (session()->getFlashdata('success')): ?>
-        <div class="alert alert-success"><?= session()->getFlashdata('success') ?></div>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+            <?= session()->getFlashdata('success') ?>
+        </div>
     <?php elseif (session()->getFlashdata('error')): ?>
-        <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <?= session()->getFlashdata('error') ?>
+        </div>
     <?php endif; ?>
 
     <?php if (!empty($bookings)): ?>
-        <table class="table table-bordered table-striped">
-            <thead class="table-danger">
-                <tr>
-                    <th>#</th>
-                    <th>Booking ID</th>
-                    <th>User</th>
-                    <th>Room</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Reason</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1; foreach ($bookings as $booking): ?>
+        <div class="overflow-x-auto shadow-md rounded-lg">
+            <table class="min-w-full bg-white border border-gray-300">
+                <thead class="bg-red-100">
                     <tr>
-                        <td><?= $no++ ?></td>
-                        <td><?= esc($booking['bookingId']) ?></td>
-                        <td><?= esc($booking['username'] ?? 'N/A') ?></td>
-                        <td><?= esc($booking['roomName'] ?? 'N/A') ?></td>
-                        <td><?= esc($booking['date']) ?></td>
-                        <td><?= esc($booking['time_slot']) ?></td>
-                        <td><?= esc($booking['reason'] ?? '-') ?></td>
-                        <td>
-                            <a href="<?= base_url('admin/bookings/rejected/delete/' . $booking['bookingId']) ?>" 
-                               class="btn btn-sm btn-danger"
-                               onclick="return confirm('Are you sure you want to delete this rejected booking?')">
-                                Delete
-                            </a>
-                        </td>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">#</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Booking ID</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">User</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Room</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Date</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Time</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Reason</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Action</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <?php $no = 1; foreach ($bookings as $booking): ?>
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= $no++ ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['bookingId']) ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['username'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['roomName'] ?? 'N/A') ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['date']) ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['time_slot']) ?></td>
+                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['reason'] ?? '-') ?></td>
+                            <td class="px-4 py-3 text-sm">
+                                <a href="<?= base_url('admin/bookings/rejected/delete/' . $booking['bookingId']) ?>" 
+                                   class="inline-block bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded text-sm"
+                                   onclick="return confirm('Are you sure you want to delete this rejected booking?')">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
     <?php else: ?>
-        <div class="alert alert-info">No rejected bookings found.</div>
+        <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+            No rejected bookings found.
+        </div>
     <?php endif; ?>
 </div>
 
