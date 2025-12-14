@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Libraries\Model;
 use App\Controllers\BaseController;
-use App\Models\BookingModel;
-use App\Models\UserModel;
 
 class Dashboard extends BaseController
 {
@@ -15,27 +14,32 @@ class Dashboard extends BaseController
             return redirect()->to('/login')->with('error', 'Please log in first.');
         }
 
-        // Get user info from session
-        $userData = [
-            'staffno'  => session()->get('staffno'),
-            'username' => session()->get('username'),
-        ];
+        $bookingModel = Model::booking();
+        $announcement = Model::announcement()->findAll();
 
-        $bookingModel = new BookingModel();
-        $userId = session()->get('staffno');
-        $userBookings = $bookingModel->where('staffno', $userId)->findAll();
+        $username = session()->get('username');
+        $staffno = session()->get('staffno');
+
+        $status = Get('status') ?? '';
+
+        $query = $bookingModel->where('staffno', $staffno);
+        if (in_array($status, ['approved', 'pending', 'rejected'])) {
+            $query = $query->where('status', $status);
+        }
+
+        $perPage = 10;
+        $userBookings = $query->paginate($perPage, 'userBookings');
+        $pager = $query->pager; 
 
         $data = [
-            'user' => $userData,
-            'bookings' => $userBookings,
+            'announcement' => $announcement,
+            'username' => $username,
+            'staffno' => $staffno,
+            'userBookings' => $userBookings,
+            'status' => $status,
+            'pager' => $pager
         ];
 
         return view('pages/dashboard', $data);
-    }
-
-    public function bookRoom()
-    {
-        // Redirect to your room booking form
-        return redirect()->to('admin/rooms');
     }
 }

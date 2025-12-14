@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Admin;
 
-use App\Models\UserModel;
+use App\Libraries\Model;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -10,15 +10,29 @@ class ManageUser extends BaseController
 {
     public function viewUsers()
     {
-        $userModel = new UserModel();
-        $users = $userModel->findAll();
+        $userModel = Model::user();
 
-        return view('admin/admin_user', ['users' => $users]);
+        $perPage = 5;
+
+        $admins = $userModel->where('is_admin', 1)->paginate($perPage, 'admins');
+        $pagerAdmin = $userModel->pager;
+        
+        $users = $userModel->where('is_admin', 0)->paginate($perPage, 'users');
+        $pagerUser = $userModel->pager;
+
+        $data = [
+            'admins' => $admins,
+            'pagerAdmin' => $pagerAdmin,
+            'users' => $users,
+            'pagerUser' => $pagerUser
+        ];
+
+        return view('admin/admin_user', ['data' => $data]);
     }
 
     public function toggleAdmin($staffno)
     {
-        $userModel = new UserModel();
+        $userModel = Model::user();
         $user = $userModel->where('staffno', $staffno)->first();
 
         if (!$user) {
@@ -37,7 +51,7 @@ class ManageUser extends BaseController
 
     public function deleteUser($staffno)
     {
-        $userModel = new UserModel();
+        $userModel = Model::user();
         $user = $userModel->where('staffno', $staffno)->first();
 
         if (!$user) {

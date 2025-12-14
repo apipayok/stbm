@@ -1,7 +1,5 @@
 @import url(status.css);
-@import url(button.css);
-@import url(app.css);
-@import url(card.css);
+@import url(sidebar.css);
 
 
 html, body {
@@ -14,3 +12,12 @@ html, body {
     overflow-y: auto; /* Optional: make inner area scrollable instead */
 }
 
+/* scrollbar part */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

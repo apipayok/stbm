@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="container mx-auto px-4 mt-8">
-    <h2 class="mb-6 text-2xl font-bold text-red-600">Rejected Bookings</h2>
+    <h2 class="mb-4 text-3xl font-semibold text-green-800">DITOLAK</h2>
 
     <!-- Flash messages -->
     <?php if (session()->getFlashdata('success')): ?>
@@ -15,13 +15,12 @@
         </div>
     <?php endif; ?>
 
-    <?php if (!empty($bookings)): ?>
+    <?php if (!empty($data['bookings'])): ?>
         <div class="overflow-x-auto shadow-md rounded-lg">
             <table class="min-w-full bg-white border border-gray-300">
                 <thead class="bg-red-100">
                     <tr>
                         <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">#</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Booking ID</th>
                         <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">User</th>
                         <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Room</th>
                         <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 border-b">Date</th>
@@ -31,17 +30,23 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    <?php $no = 1; foreach ($bookings as $booking): ?>
+                    <?php 
+                        $pager = $data['pager'];
+                        $perPage = 10;
+                        $no = 1 + ($pager->getCurrentPage('bookings') - 1) * $perPage;
+                    ?>
+
+                    <?php foreach ($data['bookings'] as $booking): ?>
                         <tr class="hover:bg-gray-50">
                             <td class="px-4 py-3 text-sm text-gray-900"><?= $no++ ?></td>
-                            <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['bookingId']) ?></td>
                             <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['username'] ?? 'N/A') ?></td>
                             <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['roomName'] ?? 'N/A') ?></td>
                             <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['date']) ?></td>
                             <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['time_slot']) ?></td>
                             <td class="px-4 py-3 text-sm text-gray-900"><?= esc($booking['reason'] ?? '-') ?></td>
+
                             <td class="px-4 py-3 text-sm">
-                                <a href="<?= base_url('admin/bookings/rejected/delete/' . $booking['bookingId']) ?>" 
+                                <a href="<?= base_url('admin/rejected/delete/' . $booking['bookingId']) ?>"
                                    class="inline-block bg-red-600 hover:bg-red-700 text-white py-1 px-3 rounded text-sm"
                                    onclick="return confirm('Are you sure you want to delete this rejected booking?')">
                                     Delete
@@ -49,12 +54,19 @@
                             </td>
                         </tr>
                     <?php endforeach; ?>
+
                 </tbody>
             </table>
         </div>
+
+        <!-- Pagination -->
+        <div class="mt-4">
+            <?= $pager->links('bookings', 'numbering') ?>
+        </div>
+
     <?php else: ?>
         <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
-            No rejected bookings found.
+            No <?= $data['status'] ?> bookings found.
         </div>
     <?php endif; ?>
 </div>

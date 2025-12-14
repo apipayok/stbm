@@ -9,12 +9,14 @@
 
 <body class="min-h-screen flex">
 
-    <div class="w-2/4 bg-gray-100 flex justify-center items-center">
+    <div class="w-2/4 bg-green-900 flex justify-center items-center">
         <div class="bg-white shadow-lg rounded-lg p-8 w-96">
             <h3 class="text-2xl font-semibold text-center mb-6">Daftar</h3>
 
             <?php if (session()->getFlashdata('error')): ?>
-                <div class="alert alert-danger"><?= session()->getFlashdata('error') ?></div>
+                <div class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
             <?php endif; ?>
 
             <form action="<?= base_url('/register') ?>" method="post" class="space-y-4">
@@ -40,17 +42,17 @@
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">Register</button>
+                    class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800 transition duration-200">Register</button>
             </form>
 
             <div class="mt-4 text-center text-black text-sm">
-        Sudah berdaftar? <a href="<?= base_url('/login') ?>" class="text-black font-semibold hover:underline">Log Masuk</a>
-      </div>
+                Sudah berdaftar? <a href="<?= base_url('/login') ?>" class="text-black font-semibold hover:underline">Log Masuk</a>
+            </div>
         </div>
     </div>
 
     <div class="w-3/5 bg-green-600 flex justify-center items-center text-white">
-        
+        <img src='/images/bangunan_maim.jpg' class="w-full h-full object-cover" alt="Image">
     </div>
 
 </body>

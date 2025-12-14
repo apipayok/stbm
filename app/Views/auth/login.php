@@ -10,7 +10,12 @@
 <body class="min-h-screen flex">
 
   <!-- Left background section -->
-  <div class="w-2/4 bg-gray-100 flex justify-center items-center">
+  <div class="w-2/4 bg-green-900 flex flex-col justify-center items-center py-10">
+    <div>
+      <div class="mb-6">
+        <h1 class="text-white text-2xl font-bold">TEMPAHAN BILIK MESYUARAT</h1>
+    </div>
+    </div>
     <!-- Login form -->
     <div class="bg-white shadow-lg rounded-lg p-8 w-96">
       <h3 class="text-2xl font-semibold text-center mb-6">Log Masuk</h3>
@@ -45,7 +50,7 @@
         </div>
 
         <button type="submit"
-          class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200">
+          class="w-full bg-green-700 text-white py-2 rounded hover:bg-green-800 transition duration-200">
           Log Masuk
         </button>
       </form>
@@ -56,9 +61,8 @@
     </div>
   </div>
 
-  <!-- Right background section -->
   <div class="w-3/5 bg-green-600 flex justify-center items-center text-white">
-
+    <img src='/images/bangunan_maim.jpg' class="w-full h-full object-cover" alt="Image">
   </div>
 
 </body>

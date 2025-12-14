@@ -13,8 +13,9 @@ class Rooms extends Migration
             'roomId'    => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'unique' => true],
             'roomName'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'status'    => ['type' => 'ENUM', 'constraint' => ['available', 'hidden'], 'default' => 'available', 'null' => false,],
-            'created_at'=> ['type' => 'DATETIME', 'null' => true,],
-            'updated_at'=> ['type' => 'DATETIME', 'null' => true,],
+            'created_at' => ['type' => 'DATETIME', 'null' => true,],
+            'updated_at' => ['type' => 'DATETIME', 'null' => true,],
+            'image' => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true,],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('rooms');

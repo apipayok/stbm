@@ -12,12 +12,19 @@ class AdminDashboard extends BaseController
         $bookings = Model::booking()->findAll();
         $users = Model::user()->findAll();
         $rooms = Model::room()->findAll();
+
         $announcements = Model::announcement()->orderBy('created_at', 'DESC')->findAll();
+        $books = Model::booking()->orderBy('created_at', 'DESC')->findAll(10);
+
+        $admin = Model::user()->where('is_admin', '1')->countAllResults();
 
         $countHidden = Model::room()->where('status', 'hidden')->countAllResults();
         $countAvailable = Model::room()->where('status', 'available')->countAllResults();
-
         $hidden = Model::room()->where('status', 'hidden')->findAll();
+
+        $approvedCount = Model::booking()->where('status', 'approved')->countAllResults();
+        $rejectedCount = Model::booking()->where('status', 'rejected')->countAllResults();
+        $pendingCount = Model::booking()->where('status', 'pending')->countAllResults();
         
         $message = [];
         if(empty($announcements)){
@@ -29,13 +36,18 @@ class AdminDashboard extends BaseController
 
         $data = [
             'bookings' => $bookings,
+            'books' => $books,
             'users' => $users,
+            'admin' => $admin,
             'rooms' => $rooms,
             'announcements' => $announcements,
             'message' => $message,
             'countHidden' => $countHidden,
             'countAvailable' => $countAvailable,
-            'hidden' => $hidden
+            'hidden' => $hidden,
+            'approvedCount' => $approvedCount,
+            'rejectedCount' => $rejectedCount,
+            'pendingCount' => $pendingCount,
         ];
 
         return view('admin/admin_dashboard', ['data' => $data]);
@@ -51,5 +63,10 @@ class AdminDashboard extends BaseController
         Model::announcement()->insert($data);
 
         return redirect()->to('admin/dashboard');
+    }
+
+    public function viewAnnouncement()
+    {
+        return view('admin/create_announcement');
     }
 }

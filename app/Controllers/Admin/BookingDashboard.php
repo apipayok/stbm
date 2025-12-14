@@ -10,7 +10,10 @@ class BookingDashboard extends BaseController
 {
     public function view()
     {
-        $bookings = Model::booking()->findAll();
+        $bookingModel = Model::booking();
+        $bookings = $bookingModel
+            ->orderBy('created_at', 'DESC')
+            ->findAll(10);
 
         $approvedCount = Model::booking()->where('status', 'approved')->countAllResults();
         $rejectedCount = Model::booking()->where('status', 'rejected')->countAllResults();

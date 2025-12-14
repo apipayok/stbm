@@ -44,7 +44,7 @@
     <!-- Recent Bookings Table -->
     <div class="bg-white shadow-md rounded-lg mb-8">
         <div class="p-6">
-            <h5 class="text-xl font-bold mb-4">Recent Bookings</h5>
+            <h5 class="text-xl font-bold mb-4">Tempahan Terbaru</h5>
 
             <!-- Set max height and enable scroll -->
             <div class="overflow-y-auto" style="max-height: 350px;">
