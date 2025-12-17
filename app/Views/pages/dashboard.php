@@ -5,7 +5,9 @@
 
     <!-- Welcome Header -->
     <div class="bg-white max-w-max shadow-lg rounded-xl p-6">
-        <h2 class="text-2xl font-bold text-green-950 mb-1">Selamat Datang, <?= esc($username) ?>!</h2>
+        <h2 class="text-2xl font-bold text-green-950 mb-1">
+            Selamat Datang, <?= esc($username) ?>!
+        </h2>
     </div>
 
     <!-- Announcements -->
@@ -16,8 +18,12 @@
             <ul class="space-y-2">
                 <?php foreach ($announcement as $a): ?>
                     <li class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 transition">
-                        <h4 class="text-xl font-bold text-gray-800"><?= esc($a['title']) ?></h4>
-                        <p class="text-gray-500"><?= esc($a['content']) ?></p>
+                        <h4 class="text-xl font-bold text-gray-800">
+                            <?= esc($a['title']) ?>
+                        </h4>
+                        <p class="text-gray-500">
+                            <?= esc($a['content']) ?>
+                        </p>
                     </li>
                 <?php endforeach; ?>
             </ul>
@@ -33,11 +39,20 @@
         <!-- Status Toggle -->
         <div class="flex space-x-2 mb-4">
             <?php
-            $statuses = ['' => 'All', 'approved' => 'Approved', 'pending' => 'Pending', 'rejected' => 'Rejected'];
+            $statuses = [
+                ''          => 'All',
+                'approved'  => 'Approved',
+                'pending'   => 'Pending',
+                'rejected'  => 'Rejected'
+            ];
+
             foreach ($statuses as $key => $label):
-                $active = ($status === $key) ? 'bg-green-700 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300';
+                $active = ($status === $key)
+                    ? 'bg-green-700 text-white'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300';
             ?>
-                <a href="<?= site_url('/dashboard?status=' . $key) ?>"
+                <a
+                    href="<?= site_url('/dashboard?status=' . $key) ?>"
                     class="px-4 py-2 rounded-md font-medium transition <?= $active ?>">
                     <?= $label ?>
                 </a>
@@ -45,24 +60,29 @@
         </div>
 
         <?php if (!empty($userBookings)): ?>
+
             <div class="overflow-x-auto bg-white shadow rounded-xl">
                 <table class="min-w-full divide-y divide-gray-200">
+
                     <thead class="bg-green-100">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Date</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Room</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Time</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider"> Time</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Reason</th>
                             <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-green-900 uppercase tracking-wider">Action</th>
                         </tr>
                     </thead>
+
                     <tbody class="bg-white divide-y divide-gray-200">
                         <?php foreach ($userBookings as $b): ?>
                             <tr class="hover:bg-green-50 transition">
+
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['date']) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['roomName'] ?? $b['room']) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['time_slot']) ?></td>
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['reason']) ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['reason']) ?>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <?php
                                     $statusColors = [
@@ -76,6 +96,25 @@
                                         <?= ucfirst($b['status']) ?>
                                     </span>
                                 </td>
+
+                                <!-- Action -->
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <?php if (in_array($b['status'], ['approved', 'rejected'])): ?>
+                                        <button
+                                            type="button"
+                                            data-popup-url="<?= base_url('/dashboard/view/' . $b['bookingId'])
+                                                                . '?roomName=' . urlencode($b['roomName'])
+                                                                . '&date=' . urlencode($b['date'])
+                                                                . '&reason=' . urlencode($b['reason']) ?>"
+                                            class="px-3 py-1 text-sm font-medium bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                                            View
+                                        </button>
+                                    <?php else: ?>
+                                        <span class="text-gray-400 text-sm">—</span>
+                                    <?php endif; ?>
+
+                                </td>
+
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -84,10 +123,7 @@
 
             <!-- Pagination -->
             <div class="mt-4">
-                <?php
-                // Preserve the status in pagination links
-                echo $pager->links('userBookings', 'numbering');
-                ?>
+                <?= $pager->links('userBookings', 'numbering') ?>
             </div>
 
         <?php else: ?>

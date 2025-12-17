@@ -26,7 +26,7 @@
 
         <!-- Actions -->
         <div class="flex justify-end gap-3">
-            <a href="<?= site_url('/') ?>"
+            <a href="<?= site_url('admin/dashboard') ?>"
                class="px-5 py-2 rounded-md bg-gray-300 hover:bg-gray-400 text-gray-800">
                 Cancel
             </a>

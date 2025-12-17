@@ -2,7 +2,7 @@
 <?= $this->section('content') ?>
 
 <div class="container mx-auto px-4 mt-8">
-    <h2 class="mb-6 text-2xl font-bold">Dashboard</h2>
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h2>
 
     <!-- Overview Cards -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

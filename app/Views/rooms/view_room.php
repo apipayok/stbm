@@ -3,7 +3,7 @@
 
 <div class="container mx-auto px-4 mt-8">
 
-    <h2 class="mb-4 text-3xl font-semibold text-green-800">URUS BILIK</h2>
+    <h2 class="mb-4 text-3xl font-bold text-black">URUS BILIK</h2>
 
     <!-- Flash message -->
     <?php if (session()->getFlashdata('success')): ?>
@@ -13,8 +13,9 @@
     <?php endif; ?>
 
     <a href="<?= base_url('admin/rooms/create') ?>"
-        class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded mb-6">
-        Add New Room
+        class="inline-block bg-green-700 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded mb-6
+       transition-transform duration-200 hover:scale-105">
+        Bilik Baharu
     </a>
 
     <!-- Cards Grid -->
@@ -23,9 +24,9 @@
 
             <?php foreach ($rooms as $room): ?>
                 <?php
-                    $imageUrl = !empty($room['image'])
-                        ? base_url('uploads/rooms/' . $room['image']) 
-                        : 'https://via.placeholder.com/200x150?text=No+Image';
+                $imageUrl = !empty($room['image'])
+                    ? base_url('uploads/rooms/' . $room['image'])
+                    : 'https://via.placeholder.com/200x150?text=No+Image';
                 ?>
                 <div class="bg-white shadow rounded-lg p-5 border border-gray-200 hover:shadow-lg transition h-full">
                     <div class="grid grid-cols-3 gap-4">
@@ -61,7 +62,7 @@
                         <!-- Right: Room Image -->
                         <div class="col-span-1 flex items-center justify-center">
                             <img src="<?= esc($imageUrl) ?>" alt="<?= esc($room['roomName']) ?>"
-                                 class="w-full h-32 object-cover rounded-lg shadow-sm">
+                                class="w-full h-32 object-cover rounded-lg shadow-sm">
                         </div>
                     </div>
                 </div>

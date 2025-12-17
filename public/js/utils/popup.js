@@ -1,6 +1,4 @@
 // utils/popup.js
-// Generic popup utility — no business logic
-
 const Popup = (() => {
 
     const overlayId = 'appPopup';
@@ -29,14 +27,30 @@ const Popup = (() => {
         const content = getContent();
         if (!overlay || !content) return;
 
-        content.innerHTML = `<p class="text-gray-500">Loading...</p>`;
         overlay.classList.remove('hidden');
         overlay.classList.add('flex');
 
-        const res = await fetch(url);
-        const html = await res.text();
+        // Show temporary loading
+        content.innerHTML = `<p class="text-gray-500">Loading...</p>`;
 
-        content.innerHTML = html;
+        try {
+            const res = await fetch(url);
+
+            // Check content type
+            const contentType = res.headers.get('Content-Type') || '';
+
+            if (contentType.includes('application/pdf')) {
+                // PDF: embed in iframe
+                content.innerHTML = `<iframe src="${url}" class="w-full h-[80vh]" frameborder="0"></iframe>`;
+            } else {
+                // HTML/other: get as text and insert
+                const html = await res.text();
+                content.innerHTML = html;
+            }
+        } catch (err) {
+            content.innerHTML = `<p class="text-red-500">Failed to load content.</p>`;
+            console.error(err);
+        }
     }
 
     function close() {
@@ -54,5 +68,4 @@ const Popup = (() => {
     };
 
 })();
-
 export default Popup;

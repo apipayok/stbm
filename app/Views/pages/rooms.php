@@ -7,12 +7,12 @@
         <?php if (!empty($rooms)): ?>
             <?php foreach ($rooms as $room): ?>
                 <?php
-                    $isHidden = $room['status'] === 'hidden';
-                    $cardClass = $isHidden ? 'bg-gray-100 text-gray-400' : 'bg-white';
-                    $cardStyle = $isHidden
-                        ? 'cursor: not-allowed; opacity: 0.6; pointer-events: none;'
-                        : 'cursor: pointer;';
-                    $imageUrl = !empty($room['image']) ? base_url('uploads/rooms/' . $room['image']) : 'https://via.placeholder.com/400x200?text=No+Image';
+                $isHidden = $room['status'] === 'hidden';
+                $cardClass = $isHidden ? 'bg-gray-100 text-gray-400' : 'bg-white';
+                $cardStyle = $isHidden
+                    ? 'cursor: not-allowed; opacity: 0.6; pointer-events: none;'
+                    : 'cursor: pointer;';
+                $imageUrl = !empty($room['image']) ? base_url('uploads/rooms/' . $room['image']) : 'https://via.placeholder.com/400x200?text=No+Image';
                 ?>
 
                 <div>
@@ -28,13 +28,19 @@
                         </a>
                     <?php else: ?>
                         <!-- Greyed-out, unclickable card -->
-                        <div class="<?= $cardClass ?> shadow-md rounded-lg h-full" style="<?= $cardStyle ?>">
-                            <img src="<?= esc($imageUrl) ?>" alt="<?= esc($room['roomName']) ?>" class="w-full h-48 object-cover rounded-t-lg">
-                            <div class="p-6 text-center flex flex-col justify-center h-full">
-                                <h5 class="text-xl font-semibold mb-2"><?= esc($room['roomName']) ?></h5>
-                                <p class="text-sm mb-0">Room ID: <?= esc($room['roomId']) ?></p>
+                        <div class="<?= $cardClass ?> shadow-md rounded-lg flex flex-col" style="<?= $cardStyle ?>">
+                            <img
+                                src="<?= esc($imageUrl) ?>"
+                                alt="<?= esc($room['roomName']) ?>"
+                                class="w-full h-48 object-cover rounded-t-lg">
+
+                            <div class="p-6 text-center flex flex-col justify-center flex-1">
+                                <h5 class="text-xl font-semibold mb-2">
+                                    <?= esc($room['roomName']) ?>
+                                </h5>
                             </div>
                         </div>
+
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>

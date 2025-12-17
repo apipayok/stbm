@@ -26,6 +26,7 @@ class Auth extends BaseController
         $staffno = Post('staffno');
         $username = Post('username');
         $password = Post('password');
+        $department = Post('department');
 
         $existingStaff = $UserModel->where('staffno', $staffno)->first();
         if ($existingStaff) {
@@ -35,7 +36,8 @@ class Auth extends BaseController
         $data = [
             'staffno' => $staffno,
             'username' => $username,
-            'password' => password_hash($password, PASSWORD_DEFAULT)
+            'password' => password_hash($password, PASSWORD_DEFAULT),
+            'department' => $department
         ];
 
         $UserModel->save($data);
@@ -52,6 +54,7 @@ class Auth extends BaseController
                 'staffno' => $user['staffno'],
                 'username' => $user['username'],
                 'is_admin' => $user['is_admin'],
+                'department' => $user['department'], 
                 'logged_in' => true,
             ]);
 

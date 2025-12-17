@@ -32,16 +32,16 @@
 
                         <!-- Status badges (merged all bookings into one) -->
                         <?php
-                            // If all bookings have same status, use it; otherwise "Multiple"
-                            $statuses = array_unique(array_column($data['bookings'], 'status'));
-                            $status = count($statuses) === 1 ? $statuses[0] : 'multiple';
-                            $badge = [
-                                'pending'   => 'bg-yellow-100 text-yellow-700',
-                                'approved'  => 'bg-green-100 text-green-700',
-                                'rejected'  => 'bg-red-100 text-red-700',
-                                'cancelled' => 'bg-gray-200 text-gray-700',
-                                'multiple'  => 'bg-blue-100 text-blue-700'
-                            ][$status] ?? 'bg-blue-100 text-blue-700';
+                        // If all bookings have same status, use it; otherwise "Multiple"
+                        $statuses = array_unique(array_column($data['bookings'], 'status'));
+                        $status = count($statuses) === 1 ? $statuses[0] : 'multiple';
+                        $badge = [
+                            'pending'   => 'bg-yellow-100 text-yellow-700',
+                            'approved'  => 'bg-green-100 text-green-700',
+                            'rejected'  => 'bg-red-100 text-red-700',
+                            'cancelled' => 'bg-gray-200 text-gray-700',
+                            'multiple'  => 'bg-blue-100 text-blue-700'
+                        ][$status] ?? 'bg-blue-100 text-blue-700';
                         ?>
                         <p><strong>Status:</strong>
                             <span class="px-2 py-1 rounded-md text-sm font-medium <?= $badge ?>">
@@ -55,7 +55,7 @@
         <?php endif; ?>
 
         <a href="<?= site_url('admin/bookings/approved') ?>"
-           class="inline-block mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+            class="inline-block mt-6 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
             ← Back
         </a>
 

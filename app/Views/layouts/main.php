@@ -17,11 +17,11 @@
     <div class="flex">
 
         <!-- Sidebar -->
-        <nav class="bg-gradient-to-b from-green-900 to-green-950 text-white shadow-2xl h-screen w-64 flex flex-col fixed">
+        <nav class="bg-gradient-to-b from-green-900 to-green-950 text-white shadow-2xl h-screen w-64 flex flex-col fixed overflow-hidden">
             <?php $uri = service('uri'); ?>
 
             <!-- Logo Section -->
-            <div class="p-6 border-b border-green-800/50">
+            <div class="p-6 border-b border-green-800/50 flex-shrink-0">
                 <div class="flex items-center space-x-3">
                     <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center shadow-lg">
                         <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,7 +36,12 @@
             </div>
 
             <!-- Navigation Menu -->
-            <ul class="flex flex-col flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <ul class="flex flex-col flex-1 px-3 py-4 space-y-1 overflow-y-auto min-h-0 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+                <style>
+                    .scrollbar-hide::-webkit-scrollbar {
+                        display: none;
+                    }
+                </style>
 
                 <?php if (session()->get('is_admin') == 0): ?>
                     <li>
@@ -46,6 +51,17 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                             <span class="font-medium">Utama</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link flex items-center space-x-3 text-white px-4 py-3 rounded-lg hover:bg-green-800/50 transition-all duration-200"
+                            href="<?= site_url('/profile') ?>">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A9 9 0 1118.88 6.196a9 9 0 01-13.758 11.608z"></path>
+                            </svg>
+                            <span class="font-medium">Profil</span>
                         </a>
                     </li>
                 <?php endif; ?>
@@ -59,6 +75,17 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
                             </svg>
                             <span class="font-medium">Utama</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a class="sidebar-link flex items-center space-x-3 text-white px-4 py-3 rounded-lg hover:bg-green-800/50 transition-all duration-200"
+                            href="<?= site_url('/profile') ?>">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5.121 17.804A9 9 0 1118.88 6.196a9 9 0 01-13.758 11.608z"></path>
+                            </svg>
+                            <span class="font-medium">Profil</span>
                         </a>
                     </li>
 
@@ -141,7 +168,7 @@
             </ul>
 
             <!-- Logout Section -->
-            <div class="p-3 border-t border-green-800/50">
+            <div class="p-3 border-t border-green-800/50 flex-shrink-0">
                 <a class="flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white px-4 py-3 rounded-lg transition-all duration-200 shadow-lg"
                     href="<?= site_url('logout') ?>">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Models\RoomModel;
 use App\Models\BookingModel;
 use App\Models\AnnouncementModel;
+use App\Models\DepartmentModel;
 
 class Model
 {
@@ -30,6 +31,11 @@ class Model
     public static function announcement()
     {
         return self::$instances['announcement'] ??= new AnnouncementModel();
+    }
+
+    public static function department()
+    {
+        return self::$instances['department'] ??= new DepartmentModel();
     }
 }
 

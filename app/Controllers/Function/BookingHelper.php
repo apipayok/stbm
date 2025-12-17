@@ -2,10 +2,7 @@
 
 namespace App\Controllers\Function;
 
-use App\Models\RoomModel;
-use App\Models\BookingModel;
 use App\Controllers\BaseController;
-use CodeIgniter\HTTP\ResponseInterface;
 
 class BookingHelper extends BaseController
 {

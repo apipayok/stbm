@@ -1,71 +1,169 @@
 <?= $this->extend('layouts/main') ?>
 <?= $this->section('content') ?>
 
-<div class="container mx-auto px-4 mt-8">
-    <h2 class="mb-4 text-3xl font-semibold text-green-800">DILULUS</h2>
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section -->
+    <div class="mb-8">
+        <div class="flex items-center mb-2">
+            <div class="bg-green-100 p-2 rounded-lg mr-3">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+            </div>
+            <div>
+                <h2 class="text-3xl font-bold text-gray-800">Tempahan Diluluskan</h2>
+                <p class="text-gray-600 text-sm">Senarai tempahan yang telah diluluskan</p>
+            </div>
+        </div>
+    </div>
 
-    <!-- Flash messages -->
+    <!-- Flash Messages -->
     <?php if (session()->getFlashdata('success')): ?>
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-            <?= session()->getFlashdata('success') ?>
+        <div class="bg-green-50 border-l-4 border-green-500 rounded-lg p-4 mb-6 flex items-start">
+            <svg class="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+                <p class="text-green-800 font-medium"><?= session()->getFlashdata('success') ?></p>
+            </div>
         </div>
     <?php elseif (session()->getFlashdata('error')): ?>
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <?= session()->getFlashdata('error') ?>
+        <div class="bg-red-50 border-l-4 border-red-500 rounded-lg p-4 mb-6 flex items-start">
+            <svg class="w-5 h-5 text-red-500 mr-3 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+                <p class="text-red-800 font-medium"><?= session()->getFlashdata('error') ?></p>
+            </div>
         </div>
     <?php endif; ?>
 
+    <!-- Bookings Table -->
     <?php if (!empty($data['bookings'])): ?>
-        <div class="overflow-x-auto shadow-md rounded-lg">
-            <table class="min-w-full bg-white border border-gray-300">
-                <thead class="bg-green-100">
-                    <tr>
-                        <th class="px-4 py-3">#</th>
-                        <th class="px-4 py-3">User</th>
-                        <th class="px-4 py-3">Room</th>
-                        <th class="px-4 py-3">Date</th>
-                        <th class="px-4 py-3">Time</th>
-                        <th class="px-4 py-3">Reason</th>
-                        <th class="px-4 py-3">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200">
-                    <?php $no = 1 + ($data['pager']->getCurrentPage('bookings') - 1) * 10; ?>
-                    <?php foreach ($data['bookings'] as $booking): ?>
-                        <tr class="hover:bg-gray-50">
-                            <td class="px-4 py-3"><?= $no++ ?></td>
-                            <td class="px-4 py-3"><?= esc($booking['username'] ?? 'N/A') ?></td>
-                            <td class="px-4 py-3"><?= esc($booking['roomName'] ?? 'N/A') ?></td>
-                            <td class="px-4 py-3"><?= esc($booking['date']) ?></td>
-                            <td class="px-4 py-3"><?= esc($booking['time_slot']) ?></td>
-                            <td class="px-4 py-3"><?= esc($booking['reason'] ?? '-') ?></td>
-                            <td class="px-4 py-3">
-                                <button
-                                    data-popup-url="<?= base_url(
-                                                        'admin/bookings/approved/summary/' . $booking['roomId']
-                                                    )
-                                                        . '?username=' . urlencode($booking['username'])
-                                                        . '&date=' . urlencode($booking['date'])
-                                                        . '&reason=' . urlencode($booking['reason'])
-                                                        . '&popup=1' ?>"
-                                    class="inline-block bg-green-600 hover:bg-green-700 text-white py-1 px-3 rounded text-sm">
-                                    View
-                                </button>
-
-
-                            </td>
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gradient-to-r from-green-600 to-green-700">
+                        <tr>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                #
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                Pengguna
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                Bilik
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                Tarikh
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                Masa
+                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
+                                Sebab
+                            </th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-white uppercase tracking-wider">
+                                Tindakan
+                            </th>
                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php $no = 1 + ($data['pager']->getCurrentPage('bookings') - 1) * 10; ?>
+                        <?php foreach ($data['bookings'] as $booking): ?>
+                            <tr class="hover:bg-green-50 transition duration-150">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center justify-center w-8 h-8 bg-green-100 rounded-full">
+                                        <span class="text-sm font-semibold text-green-700"><?= $no++ ?></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+                                            <span class="text-green-700 font-semibold text-sm">
+                                                <?= strtoupper(substr(esc($booking['username'] ?? 'N'), 0, 2)) ?>
+                                            </span>
+                                        </div>
+                                        <div class="ml-3">
+                                            <div class="text-sm font-medium text-gray-900">
+                                                <?= esc($booking['username'] ?? 'N/A') ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="flex items-center">
+                                        <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                                        </svg>
+                                        <div class="text-sm font-medium text-gray-900">
+                                            <?= esc($booking['roomName'] ?? 'N/A') ?>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                        </svg>
+                                        <span class="text-sm text-gray-900">
+                                            <?= date('d M Y', strtotime($booking['date'])) ?>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center">
+                                        <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                        </svg>
+                                        <span class="text-sm text-gray-900"><?= esc($booking['time_slot']) ?></span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-sm text-gray-900 max-w-xs truncate" title="<?= esc($booking['reason'] ?? '-') ?>">
+                                        <?= esc($booking['reason'] ?? '-') ?>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                    <button
+                                        data-popup-url="<?= base_url('admin/bookings/approved/summary/' . $booking['roomId'])
+                                                            . '?username=' . urlencode($booking['username'])
+                                                            . '&date=' . urlencode($booking['date'])
+                                                            . '&reason=' . urlencode($booking['reason'])
+                                                            . '&popup=1' ?>"
+                                        class="inline-flex items-center px-4 py-2 border border-green-600 rounded-lg text-sm font-medium text-green-700 bg-green-50 hover:bg-green-100 transition duration-150">
+                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                        Lihat
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        <div class="mt-6">
-            <?= $data['pager']->links('bookings', 'numbering') ?>
+        <!-- Pagination -->
+        <div class="mt-6 flex justify-center">
+            <div class="bg-white rounded-lg shadow px-4 py-3">
+                <?= $data['pager']->links('bookings', 'numbering') ?>
+            </div>
         </div>
     <?php else: ?>
-        <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
-            No <?= $data['status'] ?> bookings found.
+        <!-- Empty State -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-8 text-center">
+            <div class="flex justify-center mb-4">
+                <div class="bg-blue-100 p-4 rounded-full">
+                    <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+            </div>
+            <p class="text-blue-800 font-semibold text-lg mb-2">Tiada Tempahan Diluluskan</p>
+            <p class="text-blue-600 text-sm">Tempahan yang diluluskan akan dipaparkan di sini</p>
         </div>
     <?php endif; ?>
 </div>

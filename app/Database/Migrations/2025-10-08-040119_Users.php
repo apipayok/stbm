@@ -13,9 +13,10 @@ class Users extends Migration
             'staffno'   => ['type' => 'VARCHAR', 'constraint' => 255, 'null' => true, 'unique' => true],
             'username'  => ['type' => 'VARCHAR', 'constraint' => 255,],
             'password'  => ['type' => 'VARCHAR', 'constraint' => 255,],
+            'department'     => ['type' => 'INT', 'constraint' => 20, 'null' => true,],
             'is_admin'  => ['type' => 'TINYINT', 'constraint' => 1, 'default' => 0],
-            'created_at'=> ['type' => 'DATETIME', 'null' => true,],
-            'updated_at'=> ['type' => 'DATETIME', 'null' => true,],
+            'created_at' => ['type' => 'DATETIME', 'null' => true,],
+            'updated_at' => ['type' => 'DATETIME', 'null' => true,],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('users');
