@@ -23,38 +23,61 @@ class Auth extends BaseController
     {
         $UserModel = Model::user();
 
-        $staffno = Post('staffno');
-        $username = Post('username');
-        $password = Post('password');
+        $rules = [
+            'staffno'    => 'required',
+            'username'   => 'required|min_length[3]',
+            'email'      => 'required|valid_email|is_unique[users.email]',
+            'department' => 'required',
+            'password'   => 'required|min_length[6]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', implode('<br>', $this->validator->getErrors()));
+        }
+
+        $staffno    = Post('staffno');
+        $username   = Post('username');
+        $email      = Post('email');
+        $password   = Post('password');
         $department = Post('department');
 
-        $existingStaff = $UserModel->where('staffno', $staffno)->first();
-        if ($existingStaff) {
-            return redirect()->back()->with('error', 'Staff number already exists');
+        if ($UserModel->where('staffno', $staffno)->first()) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Staff number already exists');
         }
 
         $data = [
-            'staffno' => $staffno,
-            'username' => $username,
-            'password' => password_hash($password, PASSWORD_DEFAULT),
-            'department' => $department
+            'staffno'    => $staffno,
+            'username'   => $username,
+            'email'      => $email,
+            'password'   => password_hash($password, PASSWORD_DEFAULT),
+            'department' => $department,
         ];
 
-        $UserModel->save($data);
+        //dd($data);
+
+        $UserModel->insert($data);
+
         return redirect()->to('/login')->with('message', 'Registration Successful!');
+
     }
+
 
     public function login()
     {
         $UserModel = Model::user();
-        $user = $UserModel->where('staffno', $this->request->getPost('staffno'))->first();
+        $user = $UserModel->where('staffno', Post('staffno'))->first();
 
-        if ($user && password_verify($this->request->getPost('password'), $user['password'])) {
+        if ($user && password_verify(Post('password'), $user['password'])) {
             session()->set([
                 'staffno' => $user['staffno'],
                 'username' => $user['username'],
                 'is_admin' => $user['is_admin'],
-                'department' => $user['department'], 
+                'department' => $user['department'],
+                'email' => $user['email'],
                 'logged_in' => true,
             ]);
 

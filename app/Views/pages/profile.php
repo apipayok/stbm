@@ -4,7 +4,8 @@
 <div class="container mx-auto px-4 py-8">
     <!-- Header Section -->
     <div class="mb-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-2">Profil</h2>
+        <h2 class="text-3xl font-bold text-gray-800 mb-2">Profil Anda</h2>
+        <p class="text-gray-600">Maklumat peribadi dan organisasi anda</p>
     </div>
 
     <!-- Profile Card -->

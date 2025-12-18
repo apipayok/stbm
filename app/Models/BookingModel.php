@@ -15,6 +15,7 @@ class BookingModel extends Model
         'roomName',
         'staffno',
         'username',
+        'email',
         'date',
         'time_slot',
         'status',

@@ -112,6 +112,7 @@
     <div class="info-section">
         <p><strong>Nama:</strong> <?= esc($booking['username']) ?></p>
         <p><strong>No Staf:</strong> <?= esc($booking['staffno']) ?></p>
+        <p><strong>Email:</strong> <?= esc($booking['email']) ?></p>
         <p><strong>Tarikh:</strong> <?= date('d-m-Y', strtotime($booking['date'])) ?></p>
         <p><strong>Dijana:</strong> <?= date('d-m-Y H:i:s') ?></p>
     </div>
@@ -160,21 +161,6 @@
             <td><?= esc($booking['reason']) ?></td>
         </tr>
     </table>
-
-    <!--
-    <div class="signature-section">
-        <table style="border: none;">
-            <tr>
-                <td style="width: 50%; border: none; text-align: center;">
-                    <div class="signature-line">Tandatangan Pemohon</div>
-                </td>
-                <td style="width: 50%; border: none; text-align: center;">
-                    <div class="signature-line">Tandatangan Pentadbir</div>
-                </td>
-            </tr>
-        </table>
-    </div>
-                -->
 
     <div class="footer">
         <p><strong>Majlis Agama Islam Melaka (MAIM)</strong></p>

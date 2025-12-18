@@ -13,7 +13,7 @@ class AdminDashboard extends BaseController
         $users = Model::user()->findAll();
         $rooms = Model::room()->findAll();
 
-        $announcements = Model::announcement()->orderBy('created_at', 'DESC')->findAll();
+        $announcements = Model::announcement()->orderBy('created_at', 'ASC')->findAll();
         $books = Model::booking()->orderBy('created_at', 'DESC')->findAll(10);
 
         $admin = Model::user()->where('is_admin', '1')->countAllResults();

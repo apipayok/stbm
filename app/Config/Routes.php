@@ -1,6 +1,5 @@
 <?php
 
-use App\Controllers\Admin\ManageRoom;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -14,6 +13,9 @@ $routes->post('/register', 'Auth::register');
 $routes->get('/login', 'Auth::viewLogin');
 $routes->post('/login', 'Auth::login');
 $routes->get('/logout', 'Auth::logout');
+
+$routes->get('test-mail', 'TestMailer::send');
+
 
 //protect session
 $routes->group('', ['filter' => 'auth'], function ($routes) {

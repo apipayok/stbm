@@ -79,7 +79,7 @@
                         <?php foreach ($userBookings as $b): ?>
                             <tr class="hover:bg-green-50 transition">
 
-                                <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['date']) ?></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= date('d-m-Y', strtotime($b['date'])) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['roomName'] ?? $b['room']) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['time_slot']) ?></td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-700"><?= esc($b['reason']) ?>

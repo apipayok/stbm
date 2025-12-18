@@ -22,14 +22,16 @@ class Dashboard extends BaseController
 
         $status = Get('status') ?? '';
 
-        $query = $bookingModel->where('staffno', $staffno);
+        $query = $bookingModel
+            ->where('staffno', $staffno)
+            ->orderBy('date', 'DESC');
         if (in_array($status, ['approved', 'pending', 'rejected'])) {
             $query = $query->where('status', $status);
         }
 
         $perPage = 10;
         $userBookings = $query->paginate($perPage, 'userBookings');
-        $pager = $query->pager; 
+        $pager = $query->pager;
 
         $data = [
             'announcement' => $announcement,

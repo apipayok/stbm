@@ -17,6 +17,7 @@ class ManageBooking extends BaseController
 
         $bookings = $bookingModel
             ->where('status', $status)
+            ->orderBy('date', 'DESC')
             ->paginate($perPage, 'bookings');
 
         $pager = $bookingModel->pager;
@@ -75,6 +76,7 @@ class ManageBooking extends BaseController
             ->where('date', $date)
             ->where('reason', $reason)
             ->where('status', 'approved')
+            ->where('date', $date)
             ->findAll();
 
         $mergedSlots = [];

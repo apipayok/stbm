@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Libraries\Model;
+use App\Controllers\Receipt;
 use App\Controllers\BaseController;
 
 class Booking extends BaseController
@@ -71,11 +72,13 @@ class Booking extends BaseController
                 'roomName'  => $room['roomName'],
                 'staffno'   => session()->get('staffno'),
                 'username'  => session()->get('username'),
+                'email'     => session()->get('email'),
                 'date'      => $date,
                 'time_slot' => $slot,
                 'status'    => 'pending',
                 'reason'    => $reason
             ];
+            //dd($data);
 
             $bookings->insert($data);
         }
