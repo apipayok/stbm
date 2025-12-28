@@ -3,86 +3,75 @@
 namespace App\Controllers;
 
 use App\Libraries\Model;
-use App\Controllers\Receipt;
 use App\Controllers\BaseController;
+use App\Controllers\Function\TimeSlot;
 
 class Booking extends BaseController
 {
-    public function check($roomId, $slot)
-    {
-        $bookings = Model::booking();
-        $room = Model::room()->where('roomId', $roomId)->first();
-
-        $slot = urldecode($slot);
-        $date = Get('date') ?? date('Y-m-d');
-
-        $existing = $bookings
-            ->where('roomId', $roomId)
-            ->where('date', $date)
-            ->where('time_slot', $slot)
-            ->first();
-
-        if ($existing) {
-            $book = 'unavailable';
-        } else {
-            $book = 'available';
-        }
-        return view('bookings/create_booking', ['book' => $book, 'room' => $room]);
-    }
-
-    public function preview($roomId)
-    {
-        $room = Model::room()->where('roomId', $roomId)->first();
-
-        $slots = Post('slots');
-        $date = Post('date');
-
-        if (!$slots) {
-            return redirect()->back()->with('error', 'Invalid Request.');
-        }
-
-        $data = [
-            'room' => $room,
-            'slots' => $slots,
-            'date' => $date
-        ];
-
-        return view('bookings/preview', ['data' => $data]);
-    }
-
     public function create($roomId)
     {
         $bookings = Model::booking();
         $room = Model::room()->where('roomId', $roomId)->first();
 
-        $slots = Post('slots');
-        $date = Post('date');
-        $reason = Post('reason');
+        $bookStart = Post('book_start');
+        $bookEnd   = Post('book_end');
+        $date      = Post('date');
+        $reason    = Post('reason');
 
-        if (!$slots || !$reason) {
+        if (!$bookStart || !$bookEnd || !$reason) {
             return redirect()->back()->with('error', 'Incomplete booking data.');
         }
 
-        foreach ($slots as $slot) {
-            $bookingId = 'BK-' . date('Ymd') . '-' . substr(uniqid(), -4);
-
-            $data = [
-                'bookingId' => $bookingId,
-                'roomId'    => $roomId,
-                'roomName'  => $room['roomName'],
-                'staffno'   => session()->get('staffno'),
-                'username'  => session()->get('username'),
-                'email'     => session()->get('email'),
-                'date'      => $date,
-                'time_slot' => $slot,
-                'status'    => 'pending',
-                'reason'    => $reason
-            ];
-            //dd($data);
-
-            $bookings->insert($data);
+        // Validate time
+        if (strtotime($bookEnd) <= strtotime($bookStart)) {
+            return redirect()->back()->with('error', 'End time must be after start time.');
         }
 
-        return redirect()->to('/rooms/' . $roomId . '?date=' . $date);
+        // Check conflicts for this date
+        $conflict = $bookings
+            ->where('roomId', $roomId)
+            ->where('date', $date)
+            ->where('book_start <', $bookEnd)
+            ->where('book_end >', $bookStart)
+            ->first();
+
+        if ($conflict) {
+            return redirect()->back()->with('error', 'Selected time overlaps with an existing booking.');
+        }
+
+        // Insert booking
+        $bookingId = 'BK-' . date('Ymd') . '-' . substr(uniqid(), -4);
+        $bookings->insert([
+            'bookingId' => $bookingId,
+            'roomId'    => $roomId,
+            'roomName'  => $room['roomName'],
+            'staffno'   => session()->get('staffno'),
+            'username'  => session()->get('username'),
+            'email'     => session()->get('email'),
+            'date'      => $date,
+            'book_start'=> $bookStart,
+            'book_end'  => $bookEnd,
+            'status'    => 'pending',
+            'reason'    => $reason
+        ]);
+
+        return redirect()->to('/rooms/' . $roomId . '?date=' . $date)
+                         ->with('success', 'Booking created successfully.');
+    }
+
+    // Display booking page with slots for selected date
+    public function view($roomId)
+    {
+        $room = Model::room()->where('roomId', $roomId)->first();
+        $selectedDate = Get('date') ?? date('Y-m-d');
+
+        // Get slots for this room & selected date
+        $timeSlots = TimeSlot::timeSlots($roomId, $selectedDate);
+
+        return view('bookings/create_booking', [
+            'room' => $room,
+            'timeSlots' => $timeSlots,
+            'selectedDate' => $selectedDate
+        ]);
     }
 }

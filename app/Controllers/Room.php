@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use App\Libraries\Model;
-use App\Models\BookingModel;
-use App\Models\RoomModel;
 use App\Controllers\BaseController;
 use App\Controllers\Function\BookingHelper;
 use App\Controllers\Function\TimeSlot;
@@ -25,36 +23,40 @@ class Room extends BaseController
         return view('pages/rooms', $data);
     }
 
-    public function details($roomId) //details bilik after clicked on cards
+    public function details($roomId)
     {
         $helper = new BookingHelper();
-        $bookings = Model::booking();
 
         // Get room info
         $roomData = $helper->transformBook($roomId);
         $room = $roomData[0] ?? null;
 
-        if (!$room) 
-            {
+        if (!$room) {
             session()->setFlashdata('error', 'Room not found.');
             return redirect()->to('/rooms');
-            }
-
+        }
 
         $selectedDate = Get('date') ?? date('Y-m-d');
-        $timeSlots = TimeSlot::timeSlots($roomId);
+        $timeSlots = TimeSlot::timeSlots($roomId, $selectedDate); // pass date
 
-        $bookings = $bookings
+        // Fetch bookings for the selected date
+        $bookings = Model::booking()
             ->where('roomId', $roomId)
             ->where('date', $selectedDate)
+            ->whereIn('status', ['pending', 'approved']) // only relevant statuses
             ->findAll();
 
+        // Update slot statuses
         foreach ($timeSlots as &$slot) {
+            $slotTime = strtotime($slot['book_start']);
             $slotStatus = 'available';
+
             foreach ($bookings as $booking) {
-                if ($booking['time_slot'] === $slot['slot']) {
-                    // tukar status from db
-                    $slotStatus = match($booking['status']) {
+                $start = strtotime($booking['book_start']);
+                $end = strtotime($booking['book_end']);
+
+                if ($slotTime >= $start && $slotTime < $end) {
+                    $slotStatus = match ($booking['status']) {
                         'pending' => 'pending',
                         'approved' => 'booked',
                         'rejected' => 'unavailable',
@@ -64,15 +66,14 @@ class Room extends BaseController
                     break;
                 }
             }
+
             $slot['status'] = $slotStatus;
         }
 
-        // Pass everything to the view
         return view('bookings/create_booking', [
             'room' => $room,
             'selectedDate' => $selectedDate,
             'timeSlots' => $timeSlots,
         ]);
     }
-
 }

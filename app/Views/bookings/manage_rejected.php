@@ -45,27 +45,13 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gradient-to-r from-red-600 to-red-700">
                         <tr>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                #
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Pengguna
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Bilik
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Tarikh
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Masa
-                            </th>
-                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                                Sebab
-                            </th>
-                            <th class="px-6 py-4 text-center text-xs font-semibold text-white uppercase tracking-wider">
-                                Tindakan
-                            </th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">#</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Pengguna</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Bilik</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Tarikh</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Masa</th>
+                            <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Sebab</th>
+                            <th class="px-6 py-4 text-center text-xs font-semibold text-white uppercase tracking-wider">Tindakan</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -74,7 +60,6 @@
                         $perPage = 10;
                         $no = 1 + ($pager->getCurrentPage('bookings') - 1) * $perPage;
                         ?>
-
                         <?php foreach ($data['bookings'] as $booking): ?>
                             <tr class="hover:bg-red-50 transition duration-150">
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -85,14 +70,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10 bg-red-100 rounded-full flex items-center justify-center">
-                                            <span class="text-red-700 font-semibold text-sm">
-                                                <?= strtoupper(substr(esc($booking['username'] ?? 'N'), 0, 2)) ?>
-                                            </span>
+                                            <span class="text-red-700 font-semibold text-sm"><?= strtoupper(substr(esc($booking['username'] ?? 'N'), 0, 2)) ?></span>
                                         </div>
                                         <div class="ml-3">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                <?= esc($booking['username'] ?? 'N/A') ?>
-                                            </div>
+                                            <div class="text-sm font-medium text-gray-900"><?= esc($booking['username'] ?? 'N/A') ?></div>
                                         </div>
                                     </div>
                                 </td>
@@ -101,9 +82,7 @@
                                         <svg class="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                                         </svg>
-                                        <div class="text-sm font-medium text-gray-900">
-                                            <?= esc($booking['roomName'] ?? 'N/A') ?>
-                                        </div>
+                                        <div class="text-sm font-medium text-gray-900"><?= esc($booking['roomName'] ?? 'N/A') ?></div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -111,9 +90,7 @@
                                         <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                         </svg>
-                                        <span class="text-sm text-gray-900">
-                                            <?= date('d M Y', strtotime($booking['date'])) ?>
-                                        </span>
+                                        <span class="text-sm text-gray-900"><?= date('d M Y', strtotime($booking['date'])) ?></span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -121,7 +98,7 @@
                                         <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
-                                        <span class="text-sm text-gray-900"><?= esc($booking['time_slot']) ?></span>
+                                        <span class="text-sm text-gray-900"><?= esc($booking['book_start'] ?? '-') ?> - <?= esc($booking['book_end'] ?? '-') ?></span>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">

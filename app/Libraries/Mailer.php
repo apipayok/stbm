@@ -13,7 +13,7 @@ class Mailer
 
     public function sendReceipt($to, $name, $pdfPath)
     {
-        $message = view('emails/receipt', [
+        $message = view('emails/booking', [
             'name' => $name
         ]);
 

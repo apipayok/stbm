@@ -62,14 +62,37 @@ class Receipt extends BaseController
             throw new PageNotFoundException('No slots found for this booking');
         }
 
+        /* ---------------------------
+       Build slots (STRING SAFE)
+    ---------------------------- */
         $slots = [];
+
         foreach ($rows as $row) {
-            [$start, $end] = explode('-', $row['time_slot']);
-            $slots[] = ['start' => (int) $start, 'end' => (int) $end];
+            if (!empty($row['book_start']) && !empty($row['book_end'])) {
+                $slots[] = [
+                    'start' => $row['book_start'], // keep string (09:30)
+                    'end'   => $row['book_end'],   // keep string (10:00)
+                ];
+            }
         }
 
-        usort($slots, fn($a, $b) => $a['start'] <=> $b['start']);
+        if (empty($slots)) {
+            throw new PageNotFoundException('Invalid booking time');
+        }
 
+        /* ---------------------------
+       Sort by start time
+    ---------------------------- */
+        usort(
+            $slots,
+            fn($a, $b) =>
+            strtotime($a['start']) <=> strtotime($b['start'])
+        );
+
+        /* ---------------------------
+       Merge touching slots
+       09:00-09:30 + 09:30-10:00
+    ---------------------------- */
         $mergedSlots = [];
         $current = $slots[0];
 
@@ -81,10 +104,13 @@ class Receipt extends BaseController
                 $current = $slots[$i];
             }
         }
-
         $mergedSlots[] = $current;
+
+        /* ---------------------------
+       Format for view
+    ---------------------------- */
         $mergedSlots = array_map(
-            fn($s) => $s['start'] . '-' . $s['end'],
+            fn($s) => $s['start'] . ' - ' . $s['end'],
             $mergedSlots
         );
 
@@ -92,7 +118,7 @@ class Receipt extends BaseController
             'booking' => [
                 'username' => $booking['username'],
                 'staffno'  => $booking['staffno'],
-                'email'  => $booking['email'],
+                'email'    => $booking['email'],
                 'roomName' => $booking['roomName'],
                 'date'     => $booking['date'],
                 'status'   => $booking['status'],
@@ -118,6 +144,8 @@ class Receipt extends BaseController
             'name'   => $booking['username'],
         ];
     }
+
+
 
     //ni untuk send email
     public function buildPdfFromData(array $bookingData, array $mergedSlots): array

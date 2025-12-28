@@ -44,27 +44,13 @@
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gradient-to-r from-purple-600 to-purple-700">
                     <tr>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            #
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            Bilik
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            Tarikh
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            Masa
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            Ditempah Oleh
-                        </th>
-                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">
-                            Sebab
-                        </th>
-                        <th class="px-6 py-4 text-center text-xs font-semibold text-white uppercase tracking-wider">
-                            Tukar Status
-                        </th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">#</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Bilik</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Tarikh</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Masa</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Ditempah Oleh</th>
+                        <th class="px-6 py-4 text-left text-xs font-semibold text-white uppercase tracking-wider">Sebab</th>
+                        <th class="px-6 py-4 text-center text-xs font-semibold text-white uppercase tracking-wider">Tukar Status</th>
                     </tr>
                 </thead>
 
@@ -118,7 +104,9 @@
                                         <svg class="w-4 h-4 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                         </svg>
-                                        <span class="text-sm text-gray-900"><?= esc($b['time_slot'] ?? '-') ?></span>
+                                        <span class="text-sm text-gray-900">
+                                            <?= esc($b['book_start'] ?? '-') . ' - ' . esc($b['book_end'] ?? '-') ?>
+                                        </span>
                                     </div>
                                 </td>
 

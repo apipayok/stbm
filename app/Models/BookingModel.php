@@ -17,7 +17,8 @@ class BookingModel extends Model
         'username',
         'email',
         'date',
-        'time_slot',
+        'book_start',
+        'book_end',
         'status',
         'reason'
     ];

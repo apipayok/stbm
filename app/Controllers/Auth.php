@@ -28,7 +28,7 @@ class Auth extends BaseController
             'username'   => 'required|min_length[3]',
             'email'      => 'required|valid_email|is_unique[users.email]',
             'department' => 'required',
-            'password'   => 'required|min_length[6]',
+            'password'   => 'required|min_length[4]',
         ];
 
         if (!$this->validate($rules)) {
